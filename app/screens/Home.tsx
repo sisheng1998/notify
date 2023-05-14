@@ -3,8 +3,11 @@ import { Text, SafeAreaView } from 'react-native'
 
 const Home = () => {
   return (
-    <SafeAreaView className='flex-1 items-center justify-center bg-black'>
-      <Text className='text-white'>
+    <SafeAreaView>
+      <Text className='font-js-mid text-base'>
+        Open up App.js to start working on your app!
+      </Text>
+      <Text className='font-js'>
         Open up App.js to start working on your app!
       </Text>
     </SafeAreaView>
