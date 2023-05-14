@@ -4,7 +4,7 @@ import { Text, SafeAreaView } from 'react-native'
 const Home = () => {
   return (
     <SafeAreaView>
-      <Text className='font-js-mid text-base'>
+      <Text className='font-js-mid text-base text-primary'>
         Open up App.js to start working on your app!
       </Text>
       <Text className='font-js'>

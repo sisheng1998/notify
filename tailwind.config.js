@@ -7,6 +7,9 @@ module.exports = {
         js: ['js', 'sans-serif'],
         'js-mid': ['js-mid', 'sans-serif'],
       },
+      colors: {
+        primary: '#ED1C24',
+      },
     },
   },
   plugins: [],
