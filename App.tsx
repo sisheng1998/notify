@@ -2,17 +2,15 @@ import React, { useCallback } from 'react'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import 'expo-dev-client'
 
-import Home from './app/screens/Home'
-
-type StackList = {
-  Home: undefined
-}
-
-const Stack = createNativeStackNavigator<StackList>()
+import AuthStack from './app/stacks/AuthStack'
+import AppStack from './app/stacks/AppStack'
+import useAuth from './app/hooks/useAuth'
 
 const App = () => {
+  const isLoggedIn = useAuth()
+
   const [isFontsLoaded] = useFonts({
     js: require('./assets/fonts/PlusJakartaSans-Regular.ttf'),
     'js-mid': require('./assets/fonts/PlusJakartaSans-Medium.ttf'),
@@ -30,16 +28,7 @@ const App = () => {
 
   return (
     <NavigationContainer onReady={onReady}>
-      <Stack.Navigator
-        screenOptions={{
-          headerTitleStyle: {
-            fontFamily: 'js-mid',
-          },
-        }}
-        initialRouteName='Home'
-      >
-        <Stack.Screen name='Home' component={Home} />
-      </Stack.Navigator>
+      {isLoggedIn ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   )
 }
