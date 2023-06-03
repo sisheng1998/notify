@@ -5,6 +5,7 @@ import {
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
+import Logo from '../icons/Logo'
 
 const Login = () => {
   GoogleSignin.configure({
@@ -25,7 +26,18 @@ const Login = () => {
   return (
     <SafeAreaView className='flex-1 bg-white'>
       <View className='flex-1 items-center justify-center p-4'>
-        <Text className='font-js-mid text-xl'>Notify</Text>
+        <Logo className='h-14 w-14' />
+
+        <View className='my-6 space-y-1'>
+          <Text className='text-center font-js-mid text-2xl text-neutral-900'>
+            Welcome to Notify!
+          </Text>
+
+          <Text className='text-center font-js text-neutral-500'>
+            Sign in with your google account to continue.
+          </Text>
+        </View>
+
         <GoogleSigninButton
           style={{ width: 192, height: 48 }}
           size={GoogleSigninButton.Size.Wide}
