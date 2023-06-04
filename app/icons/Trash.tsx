@@ -1,18 +1,15 @@
 import * as React from 'react'
-import Svg, { SvgProps, G, Path } from 'react-native-svg'
+import Svg, { SvgProps, Path } from 'react-native-svg'
 
 const TrashIcon = (props: SvgProps) => (
   <Svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' {...props}>
-    <G
-      fill='none'
-      fillRule='evenodd'
+    <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={1.5}
-    >
-      <Path d='M19.325 9.468s-.543 6.735-.858 9.572c-.15 1.355-.987 2.15-2.358 2.174-2.61.047-5.221.05-7.83-.005-1.318-.027-2.141-.83-2.288-2.162-.317-2.862-.857-9.579-.857-9.579M20.708 6.24H3.75M17.44 6.24a1.648 1.648 0 0 1-1.614-1.324L15.583 3.7a1.28 1.28 0 0 0-1.237-.95h-4.233a1.28 1.28 0 0 0-1.237.95l-.243 1.216A1.648 1.648 0 0 1 7.018 6.24' />
-    </G>
+      d='m18.4 9.645-.587 8.042a3.184 3.184 0 0 1-3.176 2.952H8.884a3.185 3.185 0 0 1-3.176-2.953l-.587-8.041M19.694 6.626H3.826M15.38 6.625l-.482-2.377a1.198 1.198 0 0 0-1.157-.888H9.784a1.199 1.199 0 0 0-1.163.888l-.478 2.377M9.938 11.79v4.328m3.245-4.328v4.328'
+    />
   </Svg>
 )
 export default TrashIcon

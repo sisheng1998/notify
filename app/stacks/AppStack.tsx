@@ -50,7 +50,7 @@ const AppStack = () => {
           marginHorizontal: 24,
           height: 64,
           paddingTop: 8,
-          paddingHorizontal: 8,
+          paddingHorizontal: 4,
           paddingBottom: 10,
           borderRadius: 12,
           backgroundColor: 'white',
