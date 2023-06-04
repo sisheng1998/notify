@@ -41,6 +41,7 @@ const AppStack = () => {
           fontFamily: 'js-mid',
           color: colors.heading,
         },
+        headerTitleContainerStyle: { paddingVertical: 10 },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.border,
         tabBarStyle: {

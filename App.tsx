@@ -3,7 +3,9 @@ import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
 import 'expo-dev-client'
-import { THEME } from './app/constants/Theme'
+import 'react-native-gesture-handler'
+
+import { THEME } from './app/constants/theme'
 
 import AuthStack from './app/stacks/AuthStack'
 import AppStack from './app/stacks/AppStack'

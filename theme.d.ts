@@ -1,4 +1,4 @@
-import { THEME } from './app/constants/Theme'
+import { THEME } from './app/constants/theme'
 
 declare module '@react-navigation/native' {
   export type ExtendedTheme = typeof THEME
