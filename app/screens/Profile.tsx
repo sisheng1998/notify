@@ -1,16 +1,85 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, View, Image } from 'react-native'
 import auth from '@react-native-firebase/auth'
+
 import Container from '../components/Container'
 import Loading from '../components/Loading'
+import Button from '../components/Button'
+import AvatarIcon from '../icons/Avatar'
+import CheckCircleIcon from '../icons/CheckCircle'
+import RemoveCircleIcon from '../icons/RemoveCircle'
+import SignOutIcon from '../icons/SignOut'
 
 const Profile = () => {
   const user = auth().currentUser
 
   return (
     <Container>
-      {!user ? <Loading /> : <Text className='font-js'>hello</Text>}
+      {!user ? (
+        <Loading />
+      ) : (
+        <>
+          <Avatar uri={user.photoURL} />
+
+          <PersonalInfo
+            name={user.displayName}
+            email={user.email}
+            verified={user.emailVerified}
+          />
+
+          <SignOutButton />
+        </>
+      )}
     </Container>
+  )
+}
+
+const Avatar = ({ uri }: { uri: string | null }) =>
+  uri ? (
+    <Image source={{ uri }} className='mx-auto h-24 w-24 rounded-full' />
+  ) : (
+    <AvatarIcon className='mx-auto h-24 w-24 scale-125 rounded-full text-neutral-400' />
+  )
+
+const PersonalInfo = ({
+  name,
+  email,
+  verified,
+}: {
+  name: string | null
+  email: string | null
+  verified: boolean
+}) => (
+  <View className='mt-3 space-y-0.5'>
+    <Text className='text-center font-js-mid text-xl text-neutral-900'>
+      {name ? name : '-'}
+    </Text>
+
+    <View className='flex-row items-center justify-center space-x-1'>
+      <Text className='text-center font-js text-neutral-500'>
+        {email ? email : '-'}
+      </Text>
+
+      {verified ? (
+        <CheckCircleIcon className='h-4 w-4 text-green-600' />
+      ) : (
+        <RemoveCircleIcon className='h-4 w-4 text-red-600' />
+      )}
+    </View>
+  </View>
+)
+
+const SignOutButton = () => {
+  const handleSignOut = () => auth().signOut()
+
+  return (
+    <View className='mt-6 items-center justify-center'>
+      <Button
+        text='Sign Out'
+        icon={<SignOutIcon className='h-5 w-5 text-white' />}
+        onPress={handleSignOut}
+      />
+    </View>
   )
 }
 
