@@ -3,6 +3,7 @@ import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
 import 'expo-dev-client'
+import { THEME } from './app/constants/Theme'
 
 import AuthStack from './app/stacks/AuthStack'
 import AppStack from './app/stacks/AppStack'
@@ -27,7 +28,7 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer onReady={onReady}>
+    <NavigationContainer theme={THEME} onReady={onReady}>
       {isLoggedIn ? <AppStack /> : <AuthStack />}
     </NavigationContainer>
   )

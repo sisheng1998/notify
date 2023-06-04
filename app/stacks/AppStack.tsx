@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { useTheme } from '@react-navigation/native'
 
 import Home from '../screens/Home'
 import Category from '../screens/Category'
@@ -11,6 +12,7 @@ import Profile from '../screens/Profile'
 import HomeIcon from '../icons/Home'
 import CategoryIcon from '../icons/Category'
 import PlusIcon from '../icons/Plus'
+import PlusBackground from '../icons/PlusBackground'
 import TrashIcon from '../icons/Trash'
 import ProfileIcon from '../icons/Profile'
 
@@ -25,13 +27,22 @@ type TabList = {
 const Tab = createBottomTabNavigator<TabList>()
 
 const AppStack = () => {
+  const { colors } = useTheme()
+
   return (
     <Tab.Navigator
       initialRouteName='Home'
       screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: '#ED1C24',
-        tabBarInactiveTintColor: '#A3A3A3',
+        headerStyle: {
+          backgroundColor: 'white',
+          shadowColor: colors.border,
+        },
+        headerTitleStyle: {
+          fontFamily: 'js-mid',
+          color: colors.heading,
+        },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.border,
         tabBarStyle: {
           position: 'absolute',
           bottom: 32,
@@ -77,12 +88,18 @@ const AppStack = () => {
         name='AddRecord'
         component={AddRecord}
         options={{
+          title: 'New Record',
           tabBarLabelStyle: {
             display: 'none',
           },
           tabBarIcon: () => (
-            <View className='relative bottom-8 rounded-full bg-neutral-100 p-3'>
-              <View className='rounded-full bg-primary p-3'>
+            <View className='relative bottom-8 rounded-full p-3'>
+              <PlusBackground
+                className='absolute left-0 top-0 -z-10'
+                width={80}
+                height={80}
+              />
+              <View className='rounded-full bg-primary p-3 shadow-md shadow-primary/25'>
                 <PlusIcon color='white' width={32} height={32} />
               </View>
             </View>
