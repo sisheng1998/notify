@@ -9,16 +9,18 @@ import AvatarIcon from '../icons/Avatar'
 import CheckCircleIcon from '../icons/CheckCircle'
 import RemoveCircleIcon from '../icons/RemoveCircle'
 import SignOutIcon from '../icons/SignOut'
+import ProfileIcon from '../icons/Profile'
 
 const Profile = () => {
   const user = auth().currentUser
+  const isLoading = user === null || user === undefined
 
   return (
-    <Container>
-      {!user ? (
+    <Container header={<Header />} isLoading={isLoading}>
+      {isLoading ? (
         <Loading />
       ) : (
-        <>
+        <View className='mt-3'>
           <Avatar uri={user.photoURL} />
 
           <PersonalInfo
@@ -28,11 +30,20 @@ const Profile = () => {
           />
 
           <SignOutButton />
-        </>
+        </View>
       )}
     </Container>
   )
 }
+
+const Header = () => (
+  <View className='flex-1 flex-row items-center justify-center space-x-2'>
+    <ProfileIcon className='h-7 w-7 text-neutral-700' />
+    <Text className='text-center font-js-mid text-base text-neutral-900'>
+      Profile
+    </Text>
+  </View>
+)
 
 const Avatar = ({ uri }: { uri: string | null }) =>
   uri ? (
@@ -73,7 +84,7 @@ const SignOutButton = () => {
   const handleSignOut = () => auth().signOut()
 
   return (
-    <View className='mt-6 items-center justify-center'>
+    <View className='mt-8 items-center justify-center'>
       <Button
         text='Sign Out'
         icon={<SignOutIcon className='h-5 w-5 text-white' />}
