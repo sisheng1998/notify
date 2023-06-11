@@ -1,17 +1,17 @@
 import * as React from 'react'
 import Svg, { SvgProps, Path } from 'react-native-svg'
 
-const Logo = (props: SvgProps) => (
+const Logo = (props: SvgProps & { colored?: boolean }) => (
   <Svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 318 318' {...props}>
     <Path
-      stroke='#ED1C24'
+      stroke={props.colored ? '#ED1C24' : '#FFF'}
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={18}
       d='M88.719 9h140.578C278.432 9 309 43.687 309 92.773v132.454C309 274.313 278.432 309 229.282 309H88.719C39.584 309 9 274.313 9 225.227V92.773C9 43.687 39.73 9 88.719 9Z'
     />
     <Path
-      stroke='#ED1C24'
+      stroke={props.colored ? '#ED1C24' : '#FFF'}
       strokeLinecap='round'
       strokeLinejoin='round'
       strokeWidth={18}
