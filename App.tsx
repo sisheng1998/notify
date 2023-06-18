@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
+import Toast from 'react-native-toast-message'
 import 'expo-dev-client'
 import 'react-native-gesture-handler'
 
@@ -30,9 +31,13 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer theme={THEME} onReady={onReady}>
-      {isLoggedIn ? <AppStack /> : <AuthStack />}
-    </NavigationContainer>
+    <>
+      <NavigationContainer theme={THEME} onReady={onReady}>
+        {isLoggedIn ? <AppStack /> : <AuthStack />}
+      </NavigationContainer>
+
+      <Toast />
+    </>
   )
 }
 
