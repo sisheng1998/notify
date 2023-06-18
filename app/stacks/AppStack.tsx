@@ -45,7 +45,7 @@ const AppStack = () => {
             paddingTop: 8,
             paddingHorizontal: 8,
             paddingBottom: 10,
-            borderRadius: 12,
+            borderRadius: 8,
             backgroundColor: 'white',
             shadowColor: 'black',
             shadowOpacity: 0.05,

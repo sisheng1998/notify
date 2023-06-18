@@ -6,7 +6,6 @@ import moment from 'moment'
 import Container from '../components/Container'
 import Loading from '../components/Loading'
 import Button from '../components/Button'
-import AvatarIcon from '../icons/Avatar'
 import CheckCircleIcon from '../icons/CheckCircle'
 import RemoveCircleIcon from '../icons/RemoveCircle'
 import SignOutIcon from '../icons/SignOut'
@@ -22,7 +21,7 @@ const Profile = () => {
         <Loading />
       ) : (
         <View className='mt-3'>
-          <Avatar uri={user.photoURL} />
+          <Avatar uri={user.photoURL} name={user.displayName} />
 
           <PersonalInfo
             name={user.displayName}
@@ -48,12 +47,33 @@ const Header = () => (
   </View>
 )
 
-const Avatar = ({ uri }: { uri: string | null }) =>
-  uri ? (
+const Avatar = ({ uri, name }: { uri: string | null; name: string | null }) => {
+  const getInitials = (name: string) => {
+    let initials
+
+    const nameSplit = name.split(' ')
+    const nameLength = nameSplit.length
+
+    if (nameLength > 1) {
+      initials =
+        nameSplit[0].substring(0, 1) + nameSplit[nameLength - 1].substring(0, 1)
+    } else if (nameLength === 1) {
+      initials = nameSplit[0].substring(0, 1)
+    } else return '-'
+
+    return initials.toUpperCase()
+  }
+
+  return uri ? (
     <Image source={{ uri }} className='mx-auto h-24 w-24 rounded-full' />
   ) : (
-    <AvatarIcon className='mx-auto h-24 w-24 scale-125 rounded-full text-neutral-400' />
+    <View className='mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-white'>
+      <Text className='-mb-1 text-center font-js-mid text-4xl leading-none text-neutral-700'>
+        {getInitials(name ? name : '-')}
+      </Text>
+    </View>
   )
+}
 
 const PersonalInfo = ({
   name,
@@ -64,7 +84,7 @@ const PersonalInfo = ({
   email: string | null
   verified: boolean
 }) => (
-  <View className='mt-4 space-y-1'>
+  <View className='mt-3 space-y-1'>
     <Text className='text-center font-js-mid text-xl text-neutral-900'>
       {name ? name : '-'}
     </Text>
@@ -99,7 +119,7 @@ const MemberSince = ({ createdAt }: { createdAt?: string }) => {
   const noOfDays = today.diff(creationDate, 'days')
 
   return (
-    <View className='mt-5'>
+    <View className='mt-6'>
       <Text className='mb-0.5 text-center font-js text-xs text-neutral-500'>
         Member Since:
       </Text>
