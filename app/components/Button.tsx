@@ -12,7 +12,7 @@ const Button = ({
 }) => {
   return (
     <TouchableOpacity
-      className='flex-row items-center justify-center space-x-2 rounded-full bg-primary px-9 py-3 shadow shadow-primary/25'
+      className='flex-row items-center justify-center space-x-2 rounded-lg bg-primary px-9 py-3 shadow shadow-primary/25'
       onPress={onPress}
     >
       {icon}
