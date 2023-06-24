@@ -7,11 +7,11 @@ import {
 } from 'react-native'
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import auth from '@react-native-firebase/auth'
-import Toast from 'react-native-toast-message'
 
 import Logo from './Logo'
 import PlusIcon from '../icons/Plus'
 import SignOutIcon from '../icons/SignOut'
+import useToast from '../hooks/useToast'
 
 const Header = ({ route, navigation }: BottomTabHeaderProps) => {
   let action = null
@@ -58,11 +58,10 @@ const ActionContainer = ({
 )
 
 const AddNewCategory = () => {
+  const toast = useToast()
+
   const handleAddNewCategory = () => {
-    Toast.show({
-      text1: 'Add New Category',
-      text2: 'hello',
-    })
+    toast('Failed to add new category!', false)
   }
 
   return (

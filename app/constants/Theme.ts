@@ -10,4 +10,8 @@ export const THEME = {
     border: '#A3A3A3', // neutral-400
     helperText: '#D4D4D4', // neutral-300
   },
+  fonts: {
+    heading: 'js-mid',
+    body: 'js',
+  },
 }

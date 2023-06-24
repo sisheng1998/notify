@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
-import Toast from 'react-native-toast-message'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import 'expo-dev-client'
 import 'react-native-gesture-handler'
 
@@ -11,6 +11,7 @@ import { THEME } from './app/constants/theme'
 import AuthStack from './app/stacks/AuthStack'
 import AppStack from './app/stacks/AppStack'
 import useAuth from './app/hooks/useAuth'
+import ToastProvider from './app/components/ToastProvider'
 
 const App = () => {
   const isLoggedIn = useAuth()
@@ -31,13 +32,13 @@ const App = () => {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <NavigationContainer theme={THEME} onReady={onReady}>
         {isLoggedIn ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
 
-      <Toast />
-    </>
+      <ToastProvider />
+    </SafeAreaProvider>
   )
 }
 

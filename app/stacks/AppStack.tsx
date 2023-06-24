@@ -25,7 +25,7 @@ type TabList = {
 const Tab = createBottomTabNavigator<TabList>()
 
 const AppStack = () => {
-  const { colors } = useTheme()
+  const { colors, fonts } = useTheme()
 
   return (
     <>
@@ -56,7 +56,7 @@ const AppStack = () => {
             borderTopWidth: 0,
           },
           tabBarLabelStyle: {
-            fontFamily: 'js-mid',
+            fontFamily: fonts.heading,
           },
         }}
       >
