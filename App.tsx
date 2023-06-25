@@ -3,6 +3,7 @@ import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 import { NavigationContainer } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'expo-dev-client'
 import 'react-native-gesture-handler'
 
@@ -12,6 +13,7 @@ import AuthStack from './app/stacks/AuthStack'
 import AppStack from './app/stacks/AppStack'
 import useAuth from './app/hooks/useAuth'
 import ToastProvider from './app/components/ToastProvider'
+import { BottomSheetProvider } from './app/components/BottomSheetProvider'
 
 const App = () => {
   const isLoggedIn = useAuth()
@@ -32,13 +34,17 @@ const App = () => {
   }
 
   return (
-    <SafeAreaProvider>
-      <NavigationContainer theme={THEME} onReady={onReady}>
-        {isLoggedIn ? <AppStack /> : <AuthStack />}
-      </NavigationContainer>
+    <GestureHandlerRootView className='flex-1'>
+      <SafeAreaProvider>
+        <BottomSheetProvider>
+          <NavigationContainer theme={THEME} onReady={onReady}>
+            {isLoggedIn ? <AppStack /> : <AuthStack />}
+          </NavigationContainer>
+        </BottomSheetProvider>
 
-      <ToastProvider />
-    </SafeAreaProvider>
+        <ToastProvider />
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   )
 }
 

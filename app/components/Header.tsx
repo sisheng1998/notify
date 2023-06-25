@@ -12,13 +12,16 @@ import Logo from './Logo'
 import PlusIcon from '../icons/Plus'
 import SignOutIcon from '../icons/SignOut'
 import useToast from '../hooks/useToast'
+import useBottomSheet from '../hooks/useBottomSheet'
 
 const Header = ({ route, navigation }: BottomTabHeaderProps) => {
+  const { onPress } = useBottomSheet()
+
   let action = null
 
   switch (route.name) {
     case 'Category':
-      action = <AddNewCategory />
+      action = <AddNewCategory onPress={() => onPress(<Text>Hello</Text>)} />
       break
 
     case 'Profile':
@@ -57,7 +60,7 @@ const ActionContainer = ({
   </TouchableWithoutFeedback>
 )
 
-const AddNewCategory = () => {
+const AddNewCategory = ({ onPress }: { onPress: () => void }) => {
   const toast = useToast()
 
   const handleAddNewCategory = () => {
@@ -68,7 +71,7 @@ const AddNewCategory = () => {
     <ActionContainer
       icon={<PlusIcon className='h-5 w-5 text-white' />}
       text='New Category'
-      onPress={handleAddNewCategory}
+      onPress={onPress}
     />
   )
 }
