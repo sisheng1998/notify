@@ -3,6 +3,7 @@ import { View, Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
+  runOnJS,
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
@@ -13,6 +14,7 @@ import Animated, {
 const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 type BottomSheetProps = {
+  setBottomSheetContent: React.Dispatch<React.SetStateAction<React.ReactNode>>
   children?: React.ReactNode
 }
 
@@ -22,7 +24,7 @@ export type BottomSheetRefProps = {
 }
 
 const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
-  ({ children }, ref) => {
+  ({ setBottomSheetContent, children }, ref) => {
     const { top } = useSafeAreaInsets()
     const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + top
 
@@ -32,7 +34,11 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
 
     const scrollTo = useCallback((position: number) => {
       active.value = position !== 0
-      translateY.value = withSpring(position, { damping: 50 })
+      translateY.value = withSpring(
+        position,
+        { damping: 50 },
+        () => !active.value && runOnJS(setBottomSheetContent)(null)
+      )
     }, [])
 
     const isActive = useCallback(() => active.value, [])
@@ -88,21 +94,24 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
           onTouchStart={() => scrollTo(0)}
         />
 
-        <GestureDetector gesture={gesture}>
-          <Animated.View
-            className='absolute left-0 w-full rounded-3xl bg-white'
-            style={[
-              {
-                height: SCREEN_HEIGHT,
-                top: SCREEN_HEIGHT,
-              },
-              bottomSheetStyles,
-            ]}
-          >
-            <View className='my-4 h-1 w-20 self-center rounded-full bg-neutral-300' />
-            <View className='flex-1 px-6 pb-4'>{children}</View>
-          </Animated.View>
-        </GestureDetector>
+        <Animated.View
+          className='absolute left-0 w-full rounded-3xl bg-white'
+          style={[
+            {
+              height: SCREEN_HEIGHT,
+              top: SCREEN_HEIGHT,
+            },
+            bottomSheetStyles,
+          ]}
+        >
+          <GestureDetector gesture={gesture}>
+            <View className='px-6 py-4'>
+              <View className='h-1 w-20 self-center rounded-full bg-neutral-300' />
+            </View>
+          </GestureDetector>
+
+          <View className='flex-1 px-6 pb-4'>{children}</View>
+        </Animated.View>
       </>
     )
   }

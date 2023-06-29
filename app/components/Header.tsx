@@ -15,13 +15,11 @@ import useToast from '../hooks/useToast'
 import useBottomSheet from '../hooks/useBottomSheet'
 
 const Header = ({ route, navigation }: BottomTabHeaderProps) => {
-  const { onPress } = useBottomSheet()
-
   let action = null
 
   switch (route.name) {
     case 'Category':
-      action = <AddNewCategory onPress={() => onPress(<Text>Hello</Text>)} />
+      action = <AddNewCategory />
       break
 
     case 'Profile':
@@ -60,24 +58,31 @@ const ActionContainer = ({
   </TouchableWithoutFeedback>
 )
 
-const AddNewCategory = ({ onPress }: { onPress: () => void }) => {
-  const toast = useToast()
+const AddNewCategory = () => {
+  const { openBottomSheet, setBottomSheetContent } = useBottomSheet()
 
   const handleAddNewCategory = () => {
-    toast('Failed to add new category!', false)
+    setBottomSheetContent(null)
+    openBottomSheet()
   }
 
   return (
     <ActionContainer
       icon={<PlusIcon className='h-5 w-5 text-white' />}
       text='New Category'
-      onPress={onPress}
+      onPress={handleAddNewCategory}
     />
   )
 }
 
 const SignOut = () => {
-  const handleSignOut = () => auth().signOut()
+  const toast = useToast()
+
+  const handleSignOut = () =>
+    auth()
+      .signOut()
+      .then(() => toast('Signed out successfully!', true))
+      .catch(() => toast('Failed to sign out!', false))
 
   return (
     <ActionContainer
