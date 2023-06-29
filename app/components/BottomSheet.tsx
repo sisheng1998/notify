@@ -102,7 +102,7 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
         >
           <GestureDetector gesture={gesture}>
             <View className='px-6 py-4'>
-              <View className='h-1 w-20 self-center rounded-full bg-neutral-300' />
+              <View className='h-1 w-20 self-center rounded-full bg-neutral-200' />
             </View>
           </GestureDetector>
 
