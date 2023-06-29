@@ -13,6 +13,7 @@ import PlusIcon from '../icons/Plus'
 import SignOutIcon from '../icons/SignOut'
 import useToast from '../hooks/useToast'
 import useBottomSheet from '../hooks/useBottomSheet'
+import AddCategory from './Category/AddCategory'
 
 const Header = ({ route, navigation }: BottomTabHeaderProps) => {
   let action = null
@@ -59,11 +60,11 @@ const ActionContainer = ({
 )
 
 const AddNewCategory = () => {
-  const { openBottomSheet, setBottomSheetContent } = useBottomSheet()
+  const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
   const handleAddNewCategory = () => {
-    setBottomSheetContent(null)
-    openBottomSheet()
+    setBottomSheetContent(<AddCategory />)
+    handleOpenBottomSheet()
   }
 
   return (
