@@ -3,7 +3,6 @@ import { View, Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
-  runOnJS,
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
@@ -25,7 +24,7 @@ export type BottomSheetRefProps = {
 
 const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
   ({ setBottomSheetContent, children }, ref) => {
-    const { top } = useSafeAreaInsets()
+    const { top, bottom } = useSafeAreaInsets()
     const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + top
 
     const translateY = useSharedValue(0)
@@ -34,11 +33,8 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
 
     const scrollTo = useCallback((position: number) => {
       active.value = position !== 0
-      translateY.value = withSpring(
-        position,
-        { damping: 50 },
-        () => !active.value && runOnJS(setBottomSheetContent)(null)
-      )
+      translateY.value = withSpring(position, { damping: 50 })
+      position === 0 && setBottomSheetContent(null)
     }, [])
 
     const isActive = useCallback(() => active.value, [])
@@ -65,6 +61,7 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
 
     const bottomSheetStyles = useAnimatedStyle(
       () => ({
+        height: Math.abs(translateY.value),
         transform: [{ translateY: translateY.value }],
       }),
       []
@@ -98,7 +95,6 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
           className='absolute left-0 w-full rounded-3xl bg-white'
           style={[
             {
-              height: SCREEN_HEIGHT,
               top: SCREEN_HEIGHT,
             },
             bottomSheetStyles,
@@ -110,7 +106,14 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
             </View>
           </GestureDetector>
 
-          <View className='flex-1 px-6 pb-4'>{children}</View>
+          <View className='flex-1'>
+            {children}
+            <View
+              style={{
+                height: bottom,
+              }}
+            />
+          </View>
         </Animated.View>
       </>
     )

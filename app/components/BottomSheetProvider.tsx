@@ -10,11 +10,11 @@ import { Dimensions } from 'react-native'
 import BottomSheet, { BottomSheetRefProps } from './BottomSheet'
 
 type BottomSheetContextProps = {
-  openBottomSheet: () => void
+  handleOpenBottomSheet: () => void
   setBottomSheetContent: React.Dispatch<React.SetStateAction<ReactNode>>
 }
 const BottomSheetContext = createContext<BottomSheetContextProps>({
-  openBottomSheet: () => {},
+  handleOpenBottomSheet: () => {},
   setBottomSheetContent: () => {},
 })
 
@@ -25,7 +25,7 @@ export const BottomSheetProvider = ({ children }: { children: ReactNode }) => {
 
   const ref = useRef<BottomSheetRefProps>(null)
 
-  const openBottomSheet = useCallback(() => {
+  const handleOpenBottomSheet = useCallback(() => {
     const isActive = ref.current?.isActive()
     ref.current?.scrollTo(isActive ? 0 : -SCREEN_HEIGHT / 1.25)
   }, [])
@@ -33,7 +33,7 @@ export const BottomSheetProvider = ({ children }: { children: ReactNode }) => {
   return (
     <BottomSheetContext.Provider
       value={{
-        openBottomSheet,
+        handleOpenBottomSheet,
         setBottomSheetContent,
       }}
     >
