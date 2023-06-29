@@ -10,6 +10,7 @@ import CheckCircleIcon from '../icons/CheckCircle'
 import RemoveCircleIcon from '../icons/RemoveCircle'
 import SignOutIcon from '../icons/SignOut'
 import ProfileIcon from '../icons/Profile'
+import useToast from '../hooks/useToast'
 
 const Profile = () => {
   const user = auth().currentUser
@@ -134,7 +135,13 @@ const MemberSince = ({ createdAt }: { createdAt?: string }) => {
 }
 
 const SignOutButton = () => {
-  const handleSignOut = () => auth().signOut()
+  const toast = useToast()
+
+  const handleSignOut = () =>
+    auth()
+      .signOut()
+      .then(() => toast('Signed out successfully!', true))
+      .catch(() => toast('Failed to sign out!', false))
 
   return (
     <View className='mt-6 items-center justify-center'>
