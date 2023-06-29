@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react'
 import { SafeAreaView, View, ScrollView } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 
+import Loading from './Loading'
+
 const Container = ({
   header,
   isLoading = false,
@@ -34,7 +36,10 @@ const Container = ({
       </View>
 
       {isLoading ? (
-        <View className='flex-1 p-6 pt-10'>{children}</View>
+        <View className='flex-1 p-6 pt-10'>
+          <Loading />
+          <View className='h-32' />
+        </View>
       ) : (
         <ScrollView ref={scrollViewRef} className='flex-1 p-6 pt-10'>
           {children}

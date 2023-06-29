@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth'
 import moment from 'moment'
 
 import Container from '../components/Container'
-import Loading from '../components/Loading'
 import Button from '../components/Button'
 import CheckCircleIcon from '../icons/CheckCircle'
 import RemoveCircleIcon from '../icons/RemoveCircle'
@@ -18,9 +17,7 @@ const Profile = () => {
 
   return (
     <Container header={<Header />} isLoading={isLoading}>
-      {isLoading ? (
-        <Loading />
-      ) : (
+      {!isLoading && (
         <View className='mt-3'>
           <Avatar uri={user.photoURL} name={user.displayName} />
 

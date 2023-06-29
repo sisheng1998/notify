@@ -1,5 +1,19 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, ReactNode } from 'react'
 import { View, Text, Animated, Easing } from 'react-native'
+
+import LoadingIcon from '../icons/Loading'
+
+const Loading = () => {
+  return (
+    <View className='flex-1 items-center justify-center space-y-0.5'>
+      <LoadingIconContainer>
+        <LoadingIcon className='h-16 w-16 text-primary opacity-75' />
+      </LoadingIconContainer>
+
+      <Text className='font-js-mid text-sm text-neutral-500'>Loading...</Text>
+    </View>
+  )
+}
 
 const startRotationAnimation = (
   durationMs: number,
@@ -15,7 +29,7 @@ const startRotationAnimation = (
   ).start()
 }
 
-const Loading = () => {
+export const LoadingIconContainer = ({ children }: { children: ReactNode }) => {
   const rotationDegree = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -24,26 +38,20 @@ const Loading = () => {
   }, [rotationDegree])
 
   return (
-    <View className='flex-1 items-center justify-center space-y-3'>
-      <View className='h-14 w-14 shrink-0 items-center justify-center'>
-        <View className='h-full w-full rounded-full border-[8px] border-primary opacity-25' />
-        <Animated.View
-          className='absolute left-0 top-0 h-full w-full rounded-full border-[8px] border-transparent border-t-primary'
-          style={{
-            transform: [
-              {
-                rotateZ: rotationDegree.interpolate({
-                  inputRange: [0, 360],
-                  outputRange: ['0deg', '360deg'],
-                }),
-              },
-            ],
-          }}
-        />
-      </View>
-
-      <Text className='font-js text-neutral-500'>Loading...</Text>
-    </View>
+    <Animated.View
+      style={{
+        transform: [
+          {
+            rotateZ: rotationDegree.interpolate({
+              inputRange: [0, 360],
+              outputRange: ['0deg', '360deg'],
+            }),
+          },
+        ],
+      }}
+    >
+      {children}
+    </Animated.View>
   )
 }
 
