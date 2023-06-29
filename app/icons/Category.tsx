@@ -15,4 +15,5 @@ const CategoryIcon = (props: SvgProps) => (
     </G>
   </Svg>
 )
+
 export default CategoryIcon

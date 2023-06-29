@@ -12,4 +12,5 @@ const RemoveCircleIcon = (props: SvgProps) => (
     />
   </Svg>
 )
+
 export default RemoveCircleIcon

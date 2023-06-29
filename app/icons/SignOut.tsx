@@ -15,4 +15,5 @@ const SignOutIcon = (props: SvgProps) => (
     </G>
   </Svg>
 )
+
 export default SignOutIcon

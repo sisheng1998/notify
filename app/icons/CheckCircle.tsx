@@ -19,4 +19,5 @@ const CheckCircleIcon = (props: SvgProps) => (
     />
   </Svg>
 )
+
 export default CheckCircleIcon

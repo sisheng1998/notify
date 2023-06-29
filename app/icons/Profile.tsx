@@ -20,4 +20,5 @@ const ProfileIcon = (props: SvgProps) => (
     />
   </Svg>
 )
+
 export default ProfileIcon

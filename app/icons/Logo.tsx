@@ -19,4 +19,5 @@ const Logo = (props: SvgProps & { colored?: boolean }) => (
     />
   </Svg>
 )
+
 export default Logo

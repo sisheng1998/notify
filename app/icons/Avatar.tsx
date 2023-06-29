@@ -27,4 +27,5 @@ const AvatarIcon = (props: SvgProps) => (
     />
   </Svg>
 )
+
 export default AvatarIcon

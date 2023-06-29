@@ -12,4 +12,5 @@ const TrashIcon = (props: SvgProps) => (
     />
   </Svg>
 )
+
 export default TrashIcon
