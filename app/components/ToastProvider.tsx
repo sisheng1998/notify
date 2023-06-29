@@ -34,7 +34,7 @@ const ToastMessage = ({
     )}
 
     <Text
-      className={`mr-3 font-js-mid text-xs ${
+      className={`mr-1 font-js-mid text-xs ${
         isSuccess ? 'text-green-600' : 'text-red-600'
       }`}
     >
