@@ -3,10 +3,12 @@ import { View, Dimensions, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
+  Easing,
+  WithTimingConfig,
+  runOnJS,
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated'
 
@@ -31,10 +33,18 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
     const active = useSharedValue(false)
     const context = useSharedValue({ y: 0 })
 
+    const animationConfig: WithTimingConfig = {
+      duration: 500,
+      easing: Easing.bezier(0.25, 0.1, 0.25, 1),
+    }
+
     const scrollTo = useCallback((position: number) => {
       active.value = position !== 0
-      translateY.value = withSpring(position, { damping: 50 })
-      position === 0 && setBottomSheetContent(null)
+      translateY.value = withTiming(
+        position,
+        animationConfig,
+        () => position === 0 && runOnJS(setBottomSheetContent)(null)
+      )
     }, [])
 
     const isActive = useCallback(() => active.value, [])
@@ -69,7 +79,7 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
 
     const backdropStyles = useAnimatedStyle(
       () => ({
-        opacity: withTiming(active.value ? 0.5 : 0),
+        opacity: withTiming(active.value ? 0.5 : 0, animationConfig),
       }),
       []
     )
@@ -101,7 +111,7 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
           ]}
         >
           <GestureDetector gesture={gesture}>
-            <View className='px-6 py-4'>
+            <View className='px-6 pb-2 pt-4'>
               <View className='h-1 w-20 self-center rounded-full bg-neutral-200' />
             </View>
           </GestureDetector>
