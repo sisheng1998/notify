@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, ScrollView } from 'react-native'
 
-import Button from '../Button'
-import CloseIcon from '../../icons/Close'
+import Button, { IconButton } from '../Button'
 import useBottomSheet from '../../hooks/useBottomSheet'
 import { TextField, ColorField, TagPreviewField } from '../FormComponent'
 
@@ -16,18 +15,9 @@ const AddCategory = () => {
 
   return (
     <View className='flex-1 px-6'>
-      <View className='flex-row items-start justify-between space-x-2'>
-        <Text className='font-js-mid text-lg text-neutral-900'>
-          Add New Category
-        </Text>
-
-        <CloseIcon
-          className='-mr-1 h-6 w-6 text-neutral-400'
-          onPress={handleOpenBottomSheet}
-        />
-      </View>
-
-      <View className='my-4 h-px bg-neutral-200' />
+      <Text className='mb-3 font-js-mid text-lg text-neutral-900'>
+        New Category
+      </Text>
 
       <ScrollView className='flex-1'>
         <TextField
@@ -35,11 +25,12 @@ const AddCategory = () => {
           placeholder='e.g. Life Insurance'
           value={name}
           setValue={setName}
+          required
         />
 
         <View className='h-4' />
 
-        <ColorField label='Color' value={color} setValue={setColor} />
+        <ColorField label='Color' value={color} setValue={setColor} required />
 
         <View className='h-1' />
 
@@ -48,17 +39,24 @@ const AddCategory = () => {
 
       <View className='my-4 h-px bg-neutral-200' />
 
-      <Button
-        text='Add'
-        onPress={() => {
-          setIsLoading(true)
-          setTimeout(() => {
-            setIsLoading(false)
-          }, 1000)
-        }}
-        disabled={name === ''}
-        loading={isLoading}
-      />
+      <View className='flex-row items-center justify-between'>
+        <Button
+          text='Create'
+          onPress={() => {
+            setIsLoading(true)
+            setTimeout(() => {
+              setIsLoading(false)
+            }, 1000)
+          }}
+          fullWidth
+          disabled={name === ''}
+          loading={isLoading}
+        />
+
+        <View className='w-3' />
+
+        <IconButton type='cancel' onPress={handleOpenBottomSheet} />
+      </View>
     </View>
   )
 }

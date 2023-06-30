@@ -9,8 +9,17 @@ const Container = ({ children }: { children: ReactNode }) => (
   <View className='space-y-1.5'>{children}</View>
 )
 
-const Label = ({ text }: { text: string }) => (
-  <Text className='font-js-mid text-sm text-neutral-700'>{text}</Text>
+const Label = ({
+  text,
+  required = false,
+}: {
+  text: string
+  required?: boolean
+}) => (
+  <Text className='font-js-mid text-sm text-neutral-700'>
+    {text}
+    {required && <Text className='font-js-mid text-sm text-primary'> *</Text>}
+  </Text>
 )
 
 export const TextField = ({
@@ -18,14 +27,16 @@ export const TextField = ({
   placeholder,
   value,
   setValue,
+  required = false,
 }: {
   label: string
   placeholder: string
   value: string
   setValue: React.Dispatch<React.SetStateAction<string>>
+  required?: boolean
 }) => (
   <Container>
-    <Label text={label} />
+    <Label text={label} required={required} />
 
     <TextInput
       className='rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-js text-neutral-700'
@@ -42,16 +53,18 @@ export const ColorField = ({
   label,
   value,
   setValue,
+  required = false,
 }: {
   label: string
   value: number
   setValue: React.Dispatch<React.SetStateAction<number>>
+  required?: boolean
 }) => {
   const colors = useColors()
 
   return (
     <Container>
-      <Label text={label} />
+      <Label text={label} required={required} />
 
       <View className='flex-row flex-wrap'>
         {colors.map((color, index) => (
@@ -64,7 +77,7 @@ export const ColorField = ({
               }}
             >
               <CheckIcon
-                className='h-7 w-7'
+                className='h-6 w-6'
                 color={value === index ? color.text : 'transparent'}
               />
             </View>
