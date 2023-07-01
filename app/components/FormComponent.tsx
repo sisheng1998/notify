@@ -3,7 +3,8 @@ import { View, Text, TextInput, TouchableWithoutFeedback } from 'react-native'
 
 import { THEME } from '../constants/theme'
 import CheckIcon from '../icons/Check'
-import useColors, { getColor } from '../hooks/useColors'
+import useColors from '../hooks/useColors'
+import Tag from './Tag'
 
 const Container = ({ children }: { children: ReactNode }) => (
   <View className='space-y-1.5'>{children}</View>
@@ -94,32 +95,16 @@ export const TagPreviewField = ({
 }: {
   text: string
   colorIndex: number
-}) => {
-  const color = getColor(colorIndex)
+}) => (
+  <Container>
+    <Label text='Preview' />
 
-  return (
-    <Container>
-      <Label text='Preview' />
-
-      {text === '' ? (
-        <Text className='font-js-mid leading-none text-neutral-700'>-</Text>
-      ) : (
-        <View className='flex-row'>
-          <View
-            className='rounded-full px-4 py-1.5'
-            style={{
-              backgroundColor: color.background,
-            }}
-          >
-            <Text
-              className='font-js-mid capitalize leading-none'
-              style={{ color: color.text }}
-            >
-              {text}
-            </Text>
-          </View>
-        </View>
-      )}
-    </Container>
-  )
-}
+    {text === '' ? (
+      <Text className='font-js-mid leading-none text-neutral-700'>-</Text>
+    ) : (
+      <View>
+        <Tag text={text} colorIndex={colorIndex} />
+      </View>
+    )}
+  </Container>
+)
