@@ -4,14 +4,35 @@ import { View, Text, ScrollView } from 'react-native'
 import Button, { IconButton } from '../Button'
 import useBottomSheet from '../../hooks/useBottomSheet'
 import { TextField, ColorField, TagPreviewField } from '../FormComponent'
+import useToast from '../../hooks/useToast'
+import { addCategory } from '../../apis/category'
 
 const AddCategory = () => {
+  const toast = useToast()
+
   const { handleOpenBottomSheet } = useBottomSheet()
 
   const [name, setName] = useState<string>('')
   const [color, setColor] = useState<number>(0)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleSubmit = async () => {
+    setIsLoading(true)
+
+    try {
+      await addCategory({
+        name,
+        color,
+      })
+      handleOpenBottomSheet()
+      toast('New category added!', true)
+    } catch (error) {
+      toast('Failed to add new category!', false)
+    }
+
+    setIsLoading(false)
+  }
 
   return (
     <View className='flex-1 px-6'>
@@ -41,13 +62,8 @@ const AddCategory = () => {
 
       <View className='flex-row items-center justify-between'>
         <Button
-          text='Create'
-          onPress={() => {
-            setIsLoading(true)
-            setTimeout(() => {
-              setIsLoading(false)
-            }, 1000)
-          }}
+          text='Add'
+          onPress={handleSubmit}
           fullWidth
           disabled={name === ''}
           loading={isLoading}
