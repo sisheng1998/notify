@@ -18,7 +18,7 @@ const Profile = () => {
   return (
     <Container header={<Header />} isLoading={isLoading}>
       {!isLoading && (
-        <View className='mt-3'>
+        <View>
           <Avatar uri={user.photoURL} name={user.displayName} />
 
           <PersonalInfo

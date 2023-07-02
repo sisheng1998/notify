@@ -36,12 +36,12 @@ const Container = ({
       </View>
 
       {isLoading ? (
-        <View className='flex-1 p-6 pt-10'>
+        <View className='flex-1 p-6 pt-12'>
           <Loading />
           <View className='h-32' />
         </View>
       ) : (
-        <ScrollView ref={scrollViewRef} className='flex-1 p-6 pt-10'>
+        <ScrollView ref={scrollViewRef} className='flex-1 p-6 pt-12'>
           {children}
           <View className='h-32' />
         </ScrollView>
