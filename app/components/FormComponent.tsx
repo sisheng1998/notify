@@ -46,6 +46,9 @@ export const TextField = ({
       selectionColor={THEME.colors.body}
       value={value}
       onChangeText={setValue}
+      autoComplete='off'
+      autoCorrect={false}
+      spellCheck={false}
     />
   </Container>
 )
