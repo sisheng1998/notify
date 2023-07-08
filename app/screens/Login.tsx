@@ -37,7 +37,7 @@ const Login = () => {
       <View className='flex-1 items-center justify-center p-4'>
         <Logo className='h-14 w-14' colored />
 
-        <View className='my-6 space-y-1'>
+        <View className='mb-6 mt-3 space-y-1'>
           <Text className='text-center font-js-mid text-2xl text-neutral-900'>
             Welcome to Notify!
           </Text>
