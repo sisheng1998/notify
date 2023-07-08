@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Text } from 'react-native'
 
 import Container from '../components/Container'
 import { Category as CategoryType } from '../types/category'
@@ -8,6 +7,9 @@ import AddNewArea from '../components/AddNewArea'
 import AddCategory from '../components/Category/AddCategory'
 import useBottomSheet from '../hooks/useBottomSheet'
 import Search from '../components/Search'
+import CategoryCard from '../components/Category/CategoryCard'
+import EditCategory from '../components/Category/EditCategory'
+import ScrollableContainer from '../components/ScrollableContainer'
 
 const Category = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
@@ -15,6 +17,7 @@ const Category = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [categories, setCategories] = useState<CategoryType[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const [resetScroll, setResetScroll] = useState<boolean>(false)
 
   useEffect(() => {
     const subscriber = getCategories((categories: CategoryType[]) => {
@@ -30,6 +33,11 @@ const Category = () => {
     handleOpenBottomSheet()
   }
 
+  const handleEditCategory = (category: CategoryType) => {
+    setBottomSheetContent(<EditCategory category={category} />)
+    handleOpenBottomSheet()
+  }
+
   return (
     <Container
       header={
@@ -41,11 +49,20 @@ const Category = () => {
       }
       isLoading={isLoading}
     >
-      <AddNewArea text='New Category' onPress={handleAddNewCategory} />
+      <ScrollableContainer
+        resetScroll={resetScroll}
+        setResetScroll={setResetScroll}
+      >
+        {categories.map((category) => (
+          <CategoryCard
+            key={category.id}
+            category={category}
+            handleEditCategory={handleEditCategory}
+          />
+        ))}
 
-      {categories.map((category) => (
-        <Text key={category.id}>{category.name}</Text>
-      ))}
+        <AddNewArea text='New Category' onPress={handleAddNewCategory} />
+      </ScrollableContainer>
     </Container>
   )
 }
