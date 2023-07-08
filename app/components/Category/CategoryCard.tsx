@@ -20,7 +20,7 @@ const CategoryCard = ({
       onPress={() => handleCategoryAction(category, 'VIEW')}
     >
       <View
-        className='mb-3 flex-row items-start justify-between rounded-lg border border-solid'
+        className='mb-2 flex-row items-start justify-between rounded-lg border border-solid'
         style={{
           backgroundColor: color.background,
           borderColor: color.text,

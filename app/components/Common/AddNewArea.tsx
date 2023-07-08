@@ -11,7 +11,7 @@ const AddNewArea = ({
   onPress: () => void
 }) => (
   <TouchableWithoutFeedback onPress={onPress}>
-    <View className='flex-row items-center justify-center space-x-0.5 rounded-lg border border-dashed border-primary bg-primary/5 p-4'>
+    <View className='mt-0.5 flex-row items-center justify-center space-x-0.5 rounded-lg border border-dashed border-primary bg-primary/5 p-4'>
       <PlusIcon className='h-5 w-5 text-primary' />
       <Text className='font-js-mid text-primary'>{text}</Text>
     </View>

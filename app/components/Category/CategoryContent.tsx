@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
 import Button, { IconButton } from '../Common/Button'
-import useBottomSheet from '../../hooks/useBottomSheet'
 import { TextField, ColorField, TagPreviewField } from '../Common/Form'
+import ScrollableContainer from '../Common/ScrollableContainer'
+import useBottomSheet from '../../hooks/useBottomSheet'
 import useToast from '../../hooks/useToast'
-import { addCategory, editCategory, trashCategory } from '../../apis/category'
+import { addCategory, editCategory, deleteCategory } from '../../apis/category'
 import { Category } from '../../types/category'
 import { Action } from '../../types/action'
-import ScrollableContainer from '../Common/ScrollableContainer'
 
 const CategoryContent = ({
   category,
@@ -63,17 +63,17 @@ const CategoryContent = ({
     setIsLoading(false)
   }
 
-  const handleTrashCategory = async () => {
+  const handleDeleteCategory = async () => {
     if (!category) return
 
     setIsTrashLoading(true)
 
     try {
-      await trashCategory(category.id)
+      await deleteCategory(category.id)
       handleOpenBottomSheet()
-      toast('Category moved to trash!', true)
+      toast('Category deleted!', true)
     } catch (error) {
-      toast('Failed to move category to trash!', false)
+      toast('Failed to delete category!', false)
     }
 
     setIsTrashLoading(false)
@@ -106,7 +106,7 @@ const CategoryContent = ({
       content.title = 'Edit Category'
       content.readOnly = false
       content.showDeleteIcon = true
-      content.deleteIconAction = handleTrashCategory
+      content.deleteIconAction = handleDeleteCategory
       content.buttonText = 'Update'
       content.buttonAction = handleEditCategory
       content.buttonDisabled =
@@ -114,17 +114,6 @@ const CategoryContent = ({
         (category !== undefined &&
           name === category.name &&
           color === category.color)
-      content.showXIcon = true
-      break
-
-    case 'DELETE':
-      content.title = 'Category'
-      content.readOnly = true
-      content.showDeleteIcon = false
-      content.deleteIconAction = () => {}
-      content.buttonText = 'Close'
-      content.buttonAction = handleOpenBottomSheet
-      content.buttonDisabled = false
       content.showXIcon = true
       break
 
