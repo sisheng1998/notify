@@ -12,8 +12,8 @@ import { THEME } from './app/constants/theme'
 import AuthStack from './app/stacks/AuthStack'
 import AppStack from './app/stacks/AppStack'
 import useAuth from './app/hooks/useAuth'
-import ToastProvider from './app/components/ToastProvider'
-import { BottomSheetProvider } from './app/components/BottomSheetProvider'
+import ToastProvider from './app/components/Toast/ToastProvider'
+import { BottomSheetProvider } from './app/components/BottomSheet/BottomSheetProvider'
 
 const App = () => {
   const isLoggedIn = useAuth()

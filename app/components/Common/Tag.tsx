@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-import { getColor } from '../hooks/useColors'
+import { getColor } from '../../hooks/useColors'
 
 const Tag = ({ text, colorIndex }: { text: string; colorIndex: number }) => {
   const color = getColor(colorIndex)

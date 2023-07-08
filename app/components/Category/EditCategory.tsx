@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
-import Button, { IconButton } from '../Button'
+import Button, { IconButton } from '../Common/Button'
 import useBottomSheet from '../../hooks/useBottomSheet'
-import { TextField, ColorField, TagPreviewField } from '../FormComponent'
+import { TextField, ColorField, TagPreviewField } from '../Common/Form'
 import useToast from '../../hooks/useToast'
 import { editCategory, trashCategory } from '../../apis/category'
 import { Category } from '../../types/category'
-import ScrollableContainer from '../ScrollableContainer'
+import ScrollableContainer from '../Common/ScrollableContainer'
 
 const EditCategory = ({ category }: { category: Category }) => {
   const toast = useToast()
@@ -18,6 +18,7 @@ const EditCategory = ({ category }: { category: Category }) => {
   const [color, setColor] = useState<number>(category.color)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isTrashLoading, setIsTrashLoading] = useState<boolean>(false)
 
   const handleSubmit = async () => {
     setIsLoading(true)
@@ -37,7 +38,7 @@ const EditCategory = ({ category }: { category: Category }) => {
   }
 
   const handleTrash = async () => {
-    setIsLoading(true)
+    setIsTrashLoading(true)
 
     try {
       await trashCategory(category.id)
@@ -47,7 +48,7 @@ const EditCategory = ({ category }: { category: Category }) => {
       toast('Failed to move category to trash!', false)
     }
 
-    setIsLoading(false)
+    setIsTrashLoading(false)
   }
 
   return (
@@ -77,7 +78,11 @@ const EditCategory = ({ category }: { category: Category }) => {
       <View className='my-4 h-px bg-neutral-200' />
 
       <View className='flex-row items-center justify-between'>
-        <IconButton type='delete' onPress={handleTrash} />
+        <IconButton
+          type='delete'
+          onPress={handleTrash}
+          loading={isTrashLoading}
+        />
 
         <View className='w-3' />
 

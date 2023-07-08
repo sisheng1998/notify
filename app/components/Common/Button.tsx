@@ -2,9 +2,9 @@ import React, { ReactNode } from 'react'
 import { TouchableWithoutFeedback, View, Text } from 'react-native'
 
 import { LoadingIconContainer } from './Loading'
-import LoadingIcon from '../icons/Loading'
-import CloseIcon from '../icons/Close'
-import TrashIcon from '../icons/Trash'
+import LoadingIcon from '../../icons/Loading'
+import CloseIcon from '../../icons/Close'
+import TrashIcon from '../../icons/Trash'
 
 const Button = ({
   text,

@@ -3,8 +3,8 @@ import { Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Toast, { ToastConfig, BaseToastProps } from 'react-native-toast-message'
 
-import CheckCircleIcon from '../icons/CheckCircle'
-import RemoveCircleIcon from '../icons/RemoveCircle'
+import CheckCircleIcon from '../../icons/CheckCircle'
+import RemoveCircleIcon from '../../icons/RemoveCircle'
 
 const ToastProvider = () => {
   const { top } = useSafeAreaInsets()

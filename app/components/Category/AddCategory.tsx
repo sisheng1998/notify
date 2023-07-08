@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
-import Button, { IconButton } from '../Button'
+import Button, { IconButton } from '../Common/Button'
 import useBottomSheet from '../../hooks/useBottomSheet'
-import { TextField, ColorField, TagPreviewField } from '../FormComponent'
+import { TextField, ColorField, TagPreviewField } from '../Common/Form'
 import useToast from '../../hooks/useToast'
 import { addCategory } from '../../apis/category'
-import ScrollableContainer from '../ScrollableContainer'
+import ScrollableContainer from '../Common/ScrollableContainer'
 
 const AddCategory = () => {
   const toast = useToast()

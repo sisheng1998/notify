@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, ReactNode } from 'react'
 import { View, Text, Animated, Easing } from 'react-native'
 
-import LoadingIcon from '../icons/Loading'
+import LoadingIcon from '../../icons/Loading'
 
 const Loading = () => (
   <View className='mb-8 flex-1 items-center justify-center space-y-0.5'>

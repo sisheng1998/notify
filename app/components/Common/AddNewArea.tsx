@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableWithoutFeedback } from 'react-native'
 
-import PlusIcon from '../icons/Plus'
+import PlusIcon from '../../icons/Plus'
 
 const AddNewArea = ({
   text,
@@ -11,7 +11,7 @@ const AddNewArea = ({
   onPress: () => void
 }) => (
   <TouchableWithoutFeedback onPress={onPress}>
-    <View className='flex-row items-center justify-center rounded-lg space-x-0.5 border border-dashed border-primary bg-primary/5 p-4'>
+    <View className='flex-row items-center justify-center space-x-0.5 rounded-lg border border-dashed border-primary bg-primary/5 p-4'>
       <PlusIcon className='h-5 w-5 text-primary' />
       <Text className='font-js-mid text-primary'>{text}</Text>
     </View>

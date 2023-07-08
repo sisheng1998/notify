@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-import Container from '../components/Container'
+import Container from '../components/Common/Container'
 import { Category as CategoryType } from '../types/category'
 import { getCategories } from '../apis/category'
-import AddNewArea from '../components/AddNewArea'
+import AddNewArea from '../components/Common/AddNewArea'
 import AddCategory from '../components/Category/AddCategory'
 import useBottomSheet from '../hooks/useBottomSheet'
-import Search from '../components/Search'
+import Search from '../components/Common/Search'
 import CategoryCard from '../components/Category/CategoryCard'
 import EditCategory from '../components/Category/EditCategory'
-import ScrollableContainer from '../components/ScrollableContainer'
+import ScrollableContainer from '../components/Common/ScrollableContainer'
 
 const Category = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()

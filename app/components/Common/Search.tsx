@@ -2,9 +2,9 @@ import React, { useRef } from 'react'
 import { TextInput, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
-import { THEME } from '../constants/theme'
-import SearchIcon from '../icons/Search'
-import CloseIcon from '../icons/Close'
+import { THEME } from '../../constants/theme'
+import SearchIcon from '../../icons/Search'
+import CloseIcon from '../../icons/Close'
 
 const Search = ({
   placeholder,

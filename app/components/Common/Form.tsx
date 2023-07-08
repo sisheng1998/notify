@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
 import { View, Text, TextInput, TouchableWithoutFeedback } from 'react-native'
 
-import { THEME } from '../constants/theme'
-import CheckIcon from '../icons/Check'
-import useColors from '../hooks/useColors'
+import { THEME } from '../../constants/theme'
+import CheckIcon from '../../icons/Check'
+import useColors from '../../hooks/useColors'
 import Tag from './Tag'
 
 const Container = ({ children }: { children: ReactNode }) => (
