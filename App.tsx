@@ -36,11 +36,11 @@ const App = () => {
   return (
     <GestureHandlerRootView className='flex-1'>
       <SafeAreaProvider>
-        <BottomSheetProvider>
-          <NavigationContainer theme={THEME} onReady={onReady}>
+        <NavigationContainer theme={THEME} onReady={onReady}>
+          <BottomSheetProvider>
             {isLoggedIn ? <AppStack /> : <AuthStack />}
-          </NavigationContainer>
-        </BottomSheetProvider>
+          </BottomSheetProvider>
+        </NavigationContainer>
 
         <ToastProvider />
       </SafeAreaProvider>

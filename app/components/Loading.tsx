@@ -3,17 +3,15 @@ import { View, Text, Animated, Easing } from 'react-native'
 
 import LoadingIcon from '../icons/Loading'
 
-const Loading = () => {
-  return (
-    <View className='flex-1 items-center justify-center space-y-0.5'>
-      <LoadingIconContainer>
-        <LoadingIcon className='h-16 w-16 text-primary opacity-75' />
-      </LoadingIconContainer>
+const Loading = () => (
+  <View className='mb-8 flex-1 items-center justify-center space-y-0.5'>
+    <LoadingIconContainer>
+      <LoadingIcon className='h-16 w-16 text-primary opacity-75' />
+    </LoadingIconContainer>
 
-      <Text className='font-js-mid text-sm text-neutral-500'>Loading...</Text>
-    </View>
-  )
-}
+    <Text className='font-js-mid text-sm text-neutral-500'>Loading...</Text>
+  </View>
+)
 
 const startRotationAnimation = (
   durationMs: number,
