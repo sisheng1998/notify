@@ -19,7 +19,7 @@ const Container = ({
       </View>
     </View>
 
-    <View className='flex-1 overflow-hidden px-6 pb-12 pt-10'>
+    <View className='flex-1 overflow-hidden px-6 pb-12 pt-9'>
       {isLoading ? <Loading /> : children}
     </View>
   </SafeAreaView>

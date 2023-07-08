@@ -10,13 +10,19 @@ import Search from '../components/Common/Search'
 import CategoryCard from '../components/Category/CategoryCard'
 import EditCategory from '../components/Category/EditCategory'
 import ScrollableContainer from '../components/Common/ScrollableContainer'
+import InfoMessage from '../components/Common/InfoMessage'
+import Title from '../components/Common/Title'
+import useDebounce from '../hooks/useDebounce'
 
 const Category = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [categories, setCategories] = useState<CategoryType[]>([])
+
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const debouncedValue = useDebounce<string>(searchQuery, 500)
+
   const [resetScroll, setResetScroll] = useState<boolean>(false)
 
   useEffect(() => {
@@ -27,6 +33,17 @@ const Category = () => {
 
     return () => subscriber()
   }, [])
+
+  useEffect(() => {
+    setResetScroll(true)
+  }, [debouncedValue])
+
+  const results =
+    debouncedValue === ''
+      ? categories
+      : categories.filter((category) =>
+          category.name.toLowerCase().includes(debouncedValue.toLowerCase())
+        )
 
   const handleAddNewCategory = () => {
     setBottomSheetContent(<AddCategory />)
@@ -49,11 +66,21 @@ const Category = () => {
       }
       isLoading={isLoading}
     >
+      <Title text='Category' number={results.length} />
+
+      {(categories.length === 0 || results.length === 0) && (
+        <InfoMessage
+          text={
+            categories.length === 0 ? 'No Category Yet' : 'Category Not Found'
+          }
+        />
+      )}
+
       <ScrollableContainer
         resetScroll={resetScroll}
         setResetScroll={setResetScroll}
       >
-        {categories.map((category) => (
+        {results.map((category) => (
           <CategoryCard
             key={category.id}
             category={category}
