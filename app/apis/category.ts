@@ -38,7 +38,6 @@ export const getCategories = (callback: (categories: Category[]) => void) => {
 
   return collection
     .where('userId', '==', userId)
-    .where('isTrashed', '==', false)
     .orderBy('name', 'asc')
     .onSnapshot(onResult, onError)
 }
@@ -55,7 +54,6 @@ export const addCategory = async (data: AddCategory) => {
     userId,
     createdAt: now,
     updatedAt: now,
-    isTrashed: false,
   }
 
   await collection.add(category)
@@ -72,13 +70,6 @@ export const editCategory = async (id: string, data: EditCategory) => {
   await collection.doc(id).update(category)
 }
 
-export const trashCategory = async (id: string) => {
-  const now = new Date().toISOString()
-
-  const category: EditCategory = {
-    isTrashed: true,
-    updatedAt: now,
-  }
-
-  await collection.doc(id).update(category)
+export const deleteCategory = async (id: string) => {
+  await collection.doc(id).delete()
 }

@@ -3,7 +3,6 @@ export type CategoryWithoutId = Omit<Category, 'id'>
 export interface Category extends AddCategory {
   id: string
   userId: string
-  isTrashed: boolean
   createdAt: string
   updatedAt: string
 }
@@ -16,6 +15,5 @@ export interface AddCategory {
 export interface EditCategory {
   name?: string
   color?: number
-  isTrashed?: boolean
   updatedAt?: string
 }
