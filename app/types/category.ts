@@ -13,9 +13,9 @@ export interface AddCategory {
   color: number
 }
 
-export interface UpdateCategory {
+export interface EditCategory {
   name?: string
   color?: number
   isTrashed?: boolean
-  updatedAt: string
+  updatedAt?: string
 }

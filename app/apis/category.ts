@@ -3,7 +3,12 @@ import firestore, {
 } from '@react-native-firebase/firestore'
 
 import { getUserId } from './user'
-import { AddCategory, Category, CategoryWithoutId } from '../types/category'
+import {
+  AddCategory,
+  Category,
+  CategoryWithoutId,
+  EditCategory,
+} from '../types/category'
 
 const collection = firestore().collection('categories')
 
@@ -34,7 +39,7 @@ export const getCategories = (callback: (categories: Category[]) => void) => {
   return collection
     .where('userId', '==', userId)
     .where('isTrashed', '==', false)
-    .orderBy('createdAt', 'desc')
+    .orderBy('name', 'asc')
     .onSnapshot(onResult, onError)
 }
 
@@ -54,4 +59,26 @@ export const addCategory = async (data: AddCategory) => {
   }
 
   await collection.add(category)
+}
+
+export const editCategory = async (id: string, data: EditCategory) => {
+  const now = new Date().toISOString()
+
+  const category: EditCategory = {
+    ...data,
+    updatedAt: now,
+  }
+
+  await collection.doc(id).update(category)
+}
+
+export const trashCategory = async (id: string) => {
+  const now = new Date().toISOString()
+
+  const category: EditCategory = {
+    isTrashed: true,
+    updatedAt: now,
+  }
+
+  await collection.doc(id).update(category)
 }
