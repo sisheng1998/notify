@@ -29,15 +29,17 @@ export const TextField = ({
   value,
   setValue,
   required = false,
+  readOnly = false,
 }: {
   label: string
   placeholder: string
   value: string
   setValue: React.Dispatch<React.SetStateAction<string>>
   required?: boolean
+  readOnly?: boolean
 }) => (
   <Container>
-    <Label text={label} required={required} />
+    <Label text={label} required={readOnly ? false : required} />
 
     <TextInput
       className='rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-js text-neutral-700'
@@ -49,6 +51,7 @@ export const TextField = ({
       autoComplete='off'
       autoCorrect={false}
       spellCheck={false}
+      editable={!readOnly}
     />
   </Container>
 )
@@ -58,21 +61,26 @@ export const ColorField = ({
   value,
   setValue,
   required = false,
+  readOnly = false,
 }: {
   label: string
   value: number
   setValue: React.Dispatch<React.SetStateAction<number>>
   required?: boolean
+  readOnly?: boolean
 }) => {
   const colors = useColors()
 
   return (
     <Container>
-      <Label text={label} required={required} />
+      <Label text={label} required={readOnly ? false : required} />
 
       <View className='flex-row flex-wrap'>
         {colors.map((color, index) => (
-          <TouchableWithoutFeedback key={index} onPress={() => setValue(index)}>
+          <TouchableWithoutFeedback
+            key={index}
+            onPress={() => (readOnly ? {} : setValue(index))}
+          >
             <View
               className='mb-2.5 mr-3 rounded-full border p-1.5'
               style={{

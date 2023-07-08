@@ -5,15 +5,15 @@ import Container from '../components/Common/Container'
 import { Category as CategoryType } from '../types/category'
 import { getCategories } from '../apis/category'
 import AddNewArea from '../components/Common/AddNewArea'
-import AddCategory from '../components/Category/AddCategory'
+import CategoryContent from '../components/Category/CategoryContent'
 import useBottomSheet from '../hooks/useBottomSheet'
 import Search from '../components/Common/Search'
 import CategoryCard from '../components/Category/CategoryCard'
-import EditCategory from '../components/Category/EditCategory'
 import ScrollableContainer from '../components/Common/ScrollableContainer'
 import InfoMessage from '../components/Common/InfoMessage'
 import Title from '../components/Common/Title'
 import useDebounce from '../hooks/useDebounce'
+import { Action } from '../types/action'
 
 const Category = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
@@ -47,12 +47,14 @@ const Category = () => {
         )
 
   const handleAddNewCategory = () => {
-    setBottomSheetContent(<AddCategory />)
+    setBottomSheetContent(<CategoryContent action='ADD' />)
     handleOpenBottomSheet()
   }
 
-  const handleEditCategory = (category: CategoryType) => {
-    setBottomSheetContent(<EditCategory category={category} />)
+  const handleCategoryAction = (category: CategoryType, action: Action) => {
+    setBottomSheetContent(
+      <CategoryContent category={category} action={action} />
+    )
     handleOpenBottomSheet()
   }
 
@@ -84,7 +86,7 @@ const Category = () => {
             <CategoryCard
               key={category.id}
               category={category}
-              handleEditCategory={handleEditCategory}
+              handleCategoryAction={handleCategoryAction}
             />
           ))
         )}
