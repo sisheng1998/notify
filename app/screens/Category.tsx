@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { View } from 'react-native'
 
 import Container from '../components/Common/Container'
 import { Category as CategoryType } from '../types/category'
@@ -68,27 +69,29 @@ const Category = () => {
     >
       <Title text='Category' number={results.length} />
 
-      {(categories.length === 0 || results.length === 0) && (
-        <InfoMessage
-          text={
-            categories.length === 0 ? 'No Category Yet' : 'Category Not Found'
-          }
-        />
-      )}
-
       <ScrollableContainer
         resetScroll={resetScroll}
         setResetScroll={setResetScroll}
       >
-        {results.map((category) => (
-          <CategoryCard
-            key={category.id}
-            category={category}
-            handleEditCategory={handleEditCategory}
+        {categories.length === 0 || results.length === 0 ? (
+          <InfoMessage
+            text={
+              categories.length === 0 ? 'No Category Yet' : 'Category Not Found'
+            }
           />
-        ))}
+        ) : (
+          results.map((category) => (
+            <CategoryCard
+              key={category.id}
+              category={category}
+              handleEditCategory={handleEditCategory}
+            />
+          ))
+        )}
 
         <AddNewArea text='New Category' onPress={handleAddNewCategory} />
+
+        <View className='h-12' />
       </ScrollableContainer>
     </Container>
   )
