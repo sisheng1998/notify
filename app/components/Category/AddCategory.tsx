@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text } from 'react-native'
 
 import Button, { IconButton } from '../Button'
 import useBottomSheet from '../../hooks/useBottomSheet'
 import { TextField, ColorField, TagPreviewField } from '../FormComponent'
 import useToast from '../../hooks/useToast'
 import { addCategory } from '../../apis/category'
+import ScrollableContainer from '../ScrollableContainer'
 
 const AddCategory = () => {
   const toast = useToast()
@@ -40,7 +41,7 @@ const AddCategory = () => {
         New Category
       </Text>
 
-      <ScrollView className='flex-1'>
+      <ScrollableContainer>
         <TextField
           label='Name'
           placeholder='e.g. Life Insurance'
@@ -56,7 +57,7 @@ const AddCategory = () => {
         <View className='h-1' />
 
         <TagPreviewField text={name} colorIndex={color} />
-      </ScrollView>
+      </ScrollableContainer>
 
       <View className='my-4 h-px bg-neutral-200' />
 
