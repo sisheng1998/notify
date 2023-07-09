@@ -7,17 +7,18 @@ import Search from '../components/Common/Search'
 import Title from '../components/Common/Title'
 import ScrollableContainer from '../components/Common/ScrollableContainer'
 import { Policy } from '../types/policy'
-import { Category } from '../types/category'
 import InfoMessage from '../components/Common/InfoMessage'
-import { getCategories } from '../apis/category'
 import AddNewArea from '../components/Common/AddNewArea'
 import useBottomSheet from '../hooks/useBottomSheet'
+import PolicyContent from '../components/Policy/PolicyContent'
+import useCategory from '../hooks/useCategory'
 
 const Home = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
+  const { isLoading: isCategoryLoading } = useCategory()
+
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [categories, setCategories] = useState<Category[]>([])
   const [policies, setPolicies] = useState<Policy[]>([])
 
   const [searchQuery, setSearchQuery] = useState<string>('')
@@ -26,12 +27,7 @@ const Home = () => {
   const [resetScroll, setResetScroll] = useState<boolean>(false)
 
   useEffect(() => {
-    const subscriber = getCategories((categories: Category[]) => {
-      setCategories(categories)
-      if (isLoading) setIsLoading(false)
-    })
-
-    return () => subscriber()
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
@@ -48,7 +44,7 @@ const Home = () => {
         )
 
   const handleAddNewPolicy = () => {
-    setBottomSheetContent(null)
+    setBottomSheetContent(<PolicyContent action='ADD' />)
     handleOpenBottomSheet()
   }
 
@@ -61,7 +57,7 @@ const Home = () => {
           setValue={setSearchQuery}
         />
       }
-      isLoading={isLoading}
+      isLoading={isCategoryLoading || isLoading}
     >
       <Title text='Policy' number={results.length} />
 
@@ -69,11 +65,9 @@ const Home = () => {
         resetScroll={resetScroll}
         setResetScroll={setResetScroll}
       >
-        {categories.length === 0 || results.length === 0 ? (
+        {policies.length === 0 || results.length === 0 ? (
           <InfoMessage
-            text={
-              categories.length === 0 ? 'No Policy Yet' : 'Policy Not Found'
-            }
+            text={policies.length === 0 ? 'No Policy Yet' : 'Policy Not Found'}
           />
         ) : (
           results.map((policy) => (

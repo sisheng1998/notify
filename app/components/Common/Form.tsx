@@ -1,12 +1,14 @@
 import React, { ReactNode } from 'react'
 import { View, Text, TextInput, TouchableWithoutFeedback } from 'react-native'
 import moment from 'moment'
+import { TextInputMask } from 'react-native-masked-text'
 
 import { THEME } from '../../constants/theme'
 import CheckIcon from '../../icons/Check'
 import useColors from '../../hooks/useColors'
 import { DATETIME_FORMAT } from '../../constants/time'
 import Tag from './Tag'
+import useCategory from '../../hooks/useCategory'
 
 const Container = ({ children }: { children: ReactNode }) => (
   <View className='space-y-1.5'>{children}</View>
@@ -48,7 +50,7 @@ export const TextField = ({
       placeholder={placeholder}
       placeholderTextColor={THEME.colors.border}
       selectionColor={THEME.colors.body}
-      value={value}
+      value={readOnly && value === '' ? '-' : value}
       onChangeText={setValue}
       autoComplete='off'
       autoCorrect={false}
@@ -147,3 +149,61 @@ export const DateTimePreviewField = ({
     )}
   </Container>
 )
+
+export const AmountField = ({
+  label,
+  value,
+  setValue,
+  required = false,
+  readOnly = false,
+}: {
+  label: string
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  required?: boolean
+  readOnly?: boolean
+}) => (
+  <Container>
+    <Label text={label} required={readOnly ? false : required} />
+
+    <TextInputMask
+      className='rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-js text-neutral-700'
+      selectionColor={THEME.colors.body}
+      type='money'
+      options={{
+        precision: 2,
+        separator: '.',
+        delimiter: ',',
+        unit: 'RM ',
+        suffixUnit: '',
+      }}
+      includeRawValueInChangeText
+      keyboardType='numeric'
+      value={value}
+      onChangeText={(_, rawText) => setValue(rawText ? rawText : '0')}
+      editable={!readOnly}
+    />
+  </Container>
+)
+
+export const CategoryField = ({
+  label,
+  value,
+  setValue,
+  required = false,
+  readOnly = false,
+}: {
+  label: string
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  required?: boolean
+  readOnly?: boolean
+}) => {
+  const { categories } = useCategory()
+
+  return (
+    <Container>
+      <Label text={label} required={readOnly ? false : required} />
+    </Container>
+  )
+}

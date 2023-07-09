@@ -17,6 +17,7 @@ import useBottomSheet from '../hooks/useBottomSheet'
 import CategoryContent from './Category/CategoryContent'
 import Modal from './Common/Modal'
 import { deleteAllPoliciesInTrash } from '../apis/policy'
+import PolicyContent from './Policy/PolicyContent'
 
 const Header = ({ route, navigation }: BottomTabHeaderProps) => {
   let action = null
@@ -74,7 +75,7 @@ const AddNewPolicy = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
   const handleAddNewPolicy = () => {
-    setBottomSheetContent(null)
+    setBottomSheetContent(<PolicyContent action='ADD' />)
     handleOpenBottomSheet()
   }
 

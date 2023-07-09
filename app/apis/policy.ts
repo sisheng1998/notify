@@ -7,6 +7,17 @@ import { AddPolicy, Policy, PolicyWithoutId, EditPolicy } from '../types/policy'
 
 const collection = firestore().collection('policies')
 
+export const editPolicy = async (id: string, data: EditPolicy) => {
+  const now = new Date().toISOString()
+
+  const category: EditPolicy = {
+    ...data,
+    updatedAt: now,
+  }
+
+  await collection.doc(id).update(category)
+}
+
 export const deleteAllPoliciesInTrash = async () => {
   const userId = getUserId()
 

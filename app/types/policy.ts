@@ -3,6 +3,7 @@ export type PolicyWithoutId = Omit<Policy, 'id'>
 export interface Policy extends AddPolicy {
   id: string
   userId: string
+  isTrashed: boolean
   createdAt: string
   updatedAt: string
 }
@@ -13,10 +14,9 @@ export interface AddPolicy {
   policyNo: string
   amount: number
   plan: string
-  inForceDate: string
+  inforceDate: string
   period: number
-  notification: boolean
-  isTrashed: boolean
+  getNotified: boolean
 }
 
 export interface EditPolicy {
@@ -25,9 +25,9 @@ export interface EditPolicy {
   policyNo?: string
   amount?: number
   plan?: string
-  inForceDate?: string
+  inforceDate?: string
   period?: number
-  notification?: boolean
+  getNotified?: boolean
   isTrashed?: boolean
   updatedAt?: string
 }

@@ -7,13 +7,16 @@ import Search from '../components/Common/Search'
 import Title from '../components/Common/Title'
 import ScrollableContainer from '../components/Common/ScrollableContainer'
 import { Policy } from '../types/policy'
-import { Category } from '../types/category'
 import InfoMessage from '../components/Common/InfoMessage'
-import { getCategories } from '../apis/category'
+import useBottomSheet from '../hooks/useBottomSheet'
+import useCategory from '../hooks/useCategory'
 
 const Trash = () => {
+  const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
+
+  const { isLoading: isCategoryLoading } = useCategory()
+
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [categories, setCategories] = useState<Category[]>([])
   const [policies, setPolicies] = useState<Policy[]>([])
 
   const [searchQuery, setSearchQuery] = useState<string>('')
@@ -22,12 +25,7 @@ const Trash = () => {
   const [resetScroll, setResetScroll] = useState<boolean>(false)
 
   useEffect(() => {
-    const subscriber = getCategories((categories: Category[]) => {
-      setCategories(categories)
-      if (isLoading) setIsLoading(false)
-    })
-
-    return () => subscriber()
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const Trash = () => {
           setValue={setSearchQuery}
         />
       }
-      isLoading={isLoading}
+      isLoading={isCategoryLoading || isLoading}
     >
       <Title text='Trash' number={results.length} />
 
@@ -60,12 +58,10 @@ const Trash = () => {
         resetScroll={resetScroll}
         setResetScroll={setResetScroll}
       >
-        {categories.length === 0 || results.length === 0 ? (
+        {policies.length === 0 || results.length === 0 ? (
           <InfoMessage
             text={
-              categories.length === 0
-                ? 'No Policy in Trash'
-                : 'Policy Not Found'
+              policies.length === 0 ? 'No Policy in Trash' : 'Policy Not Found'
             }
           />
         ) : (
