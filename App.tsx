@@ -38,15 +38,15 @@ const App = () => {
     <GestureHandlerRootView className='flex-1'>
       <SafeAreaProvider>
         <NavigationContainer theme={THEME} onReady={onReady}>
-          <BottomSheetProvider>
-            {isLoggedIn ? (
-              <CategoryProvider>
+          {isLoggedIn ? (
+            <CategoryProvider>
+              <BottomSheetProvider>
                 <AppStack />
-              </CategoryProvider>
-            ) : (
-              <AuthStack />
-            )}
-          </BottomSheetProvider>
+              </BottomSheetProvider>
+            </CategoryProvider>
+          ) : (
+            <AuthStack />
+          )}
         </NavigationContainer>
 
         <ToastProvider />
