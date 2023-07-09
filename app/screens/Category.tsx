@@ -3,7 +3,6 @@ import { View } from 'react-native'
 
 import Container from '../components/Common/Container'
 import { Category as CategoryType } from '../types/category'
-import { getCategories } from '../apis/category'
 import AddNewArea from '../components/Common/AddNewArea'
 import CategoryContent from '../components/Category/CategoryContent'
 import useBottomSheet from '../hooks/useBottomSheet'
@@ -14,26 +13,17 @@ import InfoMessage from '../components/Common/InfoMessage'
 import Title from '../components/Common/Title'
 import useDebounce from '../hooks/useDebounce'
 import { Action } from '../types/action'
+import useCategory from '../hooks/useCategory'
 
 const Category = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [categories, setCategories] = useState<CategoryType[]>([])
+  const { isLoading, categories } = useCategory()
 
   const [searchQuery, setSearchQuery] = useState<string>('')
   const debouncedValue = useDebounce<string>(searchQuery, 500)
 
   const [resetScroll, setResetScroll] = useState<boolean>(false)
-
-  useEffect(() => {
-    const subscriber = getCategories((categories: CategoryType[]) => {
-      setCategories(categories)
-      if (isLoading) setIsLoading(false)
-    })
-
-    return () => subscriber()
-  }, [])
 
   useEffect(() => {
     setResetScroll(true)

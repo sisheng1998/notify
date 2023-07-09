@@ -14,6 +14,7 @@ import AppStack from './app/stacks/AppStack'
 import useAuth from './app/hooks/useAuth'
 import ToastProvider from './app/components/Toast/ToastProvider'
 import { BottomSheetProvider } from './app/components/BottomSheet/BottomSheetProvider'
+import { CategoryProvider } from './app/components/Category/CategoryProvider'
 
 const App = () => {
   const isLoggedIn = useAuth()
@@ -38,7 +39,13 @@ const App = () => {
       <SafeAreaProvider>
         <NavigationContainer theme={THEME} onReady={onReady}>
           <BottomSheetProvider>
-            {isLoggedIn ? <AppStack /> : <AuthStack />}
+            {isLoggedIn ? (
+              <CategoryProvider>
+                <AppStack />
+              </CategoryProvider>
+            ) : (
+              <AuthStack />
+            )}
           </BottomSheetProvider>
         </NavigationContainer>
 
