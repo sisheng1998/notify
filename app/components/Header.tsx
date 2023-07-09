@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   SafeAreaView,
@@ -10,17 +10,28 @@ import auth from '@react-native-firebase/auth'
 
 import Logo from './Logo'
 import PlusIcon from '../icons/Plus'
+import TrashIcon from '../icons/Trash'
 import SignOutIcon from '../icons/SignOut'
 import useToast from '../hooks/useToast'
 import useBottomSheet from '../hooks/useBottomSheet'
 import CategoryContent from './Category/CategoryContent'
+import Modal from './Common/Modal'
+import { deleteAllPoliciesInTrash } from '../apis/policy'
 
 const Header = ({ route, navigation }: BottomTabHeaderProps) => {
   let action = null
 
   switch (route.name) {
+    case 'Home':
+      action = <AddNewPolicy />
+      break
+
     case 'Category':
       action = <AddNewCategory />
+      break
+
+    case 'Trash':
+      action = <EmptyTrash />
       break
 
     case 'Profile':
@@ -59,6 +70,23 @@ const ActionContainer = ({
   </TouchableWithoutFeedback>
 )
 
+const AddNewPolicy = () => {
+  const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
+
+  const handleAddNewPolicy = () => {
+    setBottomSheetContent(null)
+    handleOpenBottomSheet()
+  }
+
+  return (
+    <ActionContainer
+      icon={<PlusIcon className='h-5 w-5 text-white' />}
+      text='New Policy'
+      onPress={handleAddNewPolicy}
+    />
+  )
+}
+
 const AddNewCategory = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
@@ -73,6 +101,51 @@ const AddNewCategory = () => {
       text='New Category'
       onPress={handleAddNewCategory}
     />
+  )
+}
+
+const EmptyTrash = () => {
+  const toast = useToast()
+
+  const [open, setOpen] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleEmptyTrash = async () => {
+    setIsLoading(true)
+
+    try {
+      await deleteAllPoliciesInTrash()
+      setOpen(false)
+      toast('Trash emptied!', true)
+    } catch (error) {
+      toast('Failed to empty trash!', false)
+    }
+
+    setIsLoading(false)
+  }
+
+  const handleOpenModal = () => setOpen(true)
+
+  const handleCloseModal = () => (isLoading ? {} : setOpen(false))
+
+  return (
+    <>
+      <ActionContainer
+        icon={<TrashIcon className='mr-0.5 h-5 w-5 text-white' />}
+        text='Empty Trash'
+        onPress={handleOpenModal}
+      />
+
+      <Modal
+        open={open}
+        handleClose={handleCloseModal}
+        title='Confirm Empty Trash?'
+        body='This action is irreversible!'
+        buttonText='Empty Trash'
+        buttonAction={handleEmptyTrash}
+        buttonLoading={isLoading}
+      />
+    </>
   )
 }
 
