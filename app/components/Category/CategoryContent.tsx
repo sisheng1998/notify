@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
 import Button, { IconButton } from '../Common/Button'
-import { TextField, ColorField, TagPreviewField } from '../Common/Form'
+import {
+  TextField,
+  ColorField,
+  TagPreviewField,
+  DateTimePreviewField,
+} from '../Common/Form'
 import ScrollableContainer from '../Common/ScrollableContainer'
 import useBottomSheet from '../../hooks/useBottomSheet'
 import useToast from '../../hooks/useToast'
@@ -165,6 +170,28 @@ const CategoryContent = ({
         <View className='h-1' />
 
         <TagPreviewField text={name} colorIndex={color} />
+
+        {category !== undefined && (
+          <>
+            <View className='h-4' />
+
+            <DateTimePreviewField
+              label='Created At'
+              time={category.createdAt}
+            />
+
+            <View className='h-4' />
+
+            <DateTimePreviewField
+              label='Last Updated'
+              time={
+                category.createdAt === category.updatedAt
+                  ? '-'
+                  : category.updatedAt
+              }
+            />
+          </>
+        )}
       </ScrollableContainer>
 
       <View className='my-4 h-px bg-neutral-200' />

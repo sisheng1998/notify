@@ -10,6 +10,7 @@ import RemoveCircleIcon from '../icons/RemoveCircle'
 import SignOutIcon from '../icons/SignOut'
 import ProfileIcon from '../icons/Profile'
 import useToast from '../hooks/useToast'
+import { DATE_FORMAT } from '../constants/time'
 
 const Profile = () => {
   const user = auth().currentUser
@@ -108,8 +109,6 @@ const PersonalInfo = ({
     </View>
   </View>
 )
-
-const DATE_FORMAT = 'DD-MM-YYYY'
 
 const MemberSince = ({ createdAt }: { createdAt?: string }) => {
   const today = moment()

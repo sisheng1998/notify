@@ -1,9 +1,11 @@
 import React, { ReactNode } from 'react'
 import { View, Text, TextInput, TouchableWithoutFeedback } from 'react-native'
+import moment from 'moment'
 
 import { THEME } from '../../constants/theme'
 import CheckIcon from '../../icons/Check'
 import useColors from '../../hooks/useColors'
+import { DATETIME_FORMAT } from '../../constants/time'
 import Tag from './Tag'
 
 const Container = ({ children }: { children: ReactNode }) => (
@@ -111,10 +113,36 @@ export const TagPreviewField = ({
     <Label text='Preview' />
 
     {text === '' ? (
-      <Text className='font-js-mid leading-none text-neutral-700'>-</Text>
+      <Text className='font-js text-neutral-700'>-</Text>
     ) : (
       <View>
         <Tag text={text} colorIndex={colorIndex} />
+      </View>
+    )}
+  </Container>
+)
+
+export const DateTimePreviewField = ({
+  label,
+  time,
+}: {
+  label: string
+  time: string
+}) => (
+  <Container>
+    <Label text={label} />
+
+    {time === '-' ? (
+      <Text className='font-js text-neutral-700'>-</Text>
+    ) : (
+      <View className='flex-row items-baseline space-x-1'>
+        <Text className='font-js text-neutral-900'>
+          {moment(time).format(DATETIME_FORMAT)}
+        </Text>
+
+        <Text className='font-js text-xs text-neutral-500'>
+          - {moment(time).fromNow()}
+        </Text>
       </View>
     )}
   </Container>
