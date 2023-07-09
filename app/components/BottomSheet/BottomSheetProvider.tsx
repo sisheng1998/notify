@@ -13,6 +13,7 @@ type BottomSheetContextProps = {
   handleOpenBottomSheet: () => void
   setBottomSheetContent: React.Dispatch<React.SetStateAction<ReactNode>>
 }
+
 const BottomSheetContext = createContext<BottomSheetContextProps>({
   handleOpenBottomSheet: () => {},
   setBottomSheetContent: () => {},
