@@ -9,6 +9,7 @@ import useToast from '../../hooks/useToast'
 import { addCategory, editCategory, deleteCategory } from '../../apis/category'
 import { Category } from '../../types/category'
 import { Action } from '../../types/action'
+import Modal from '../Common/Modal'
 
 const CategoryContent = ({
   category,
@@ -24,8 +25,9 @@ const CategoryContent = ({
   const [name, setName] = useState<string>(category ? category.name : '')
   const [color, setColor] = useState<number>(category ? category.color : 0)
 
+  const [open, setOpen] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isTrashLoading, setIsTrashLoading] = useState<boolean>(false)
+  const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false)
 
   const handleAddCategory = async () => {
     setIsLoading(true)
@@ -66,18 +68,23 @@ const CategoryContent = ({
   const handleDeleteCategory = async () => {
     if (!category) return
 
-    setIsTrashLoading(true)
+    setIsDeleteLoading(true)
 
     try {
       await deleteCategory(category.id)
+      setOpen(false)
       handleOpenBottomSheet()
       toast('Category deleted!', true)
     } catch (error) {
       toast('Failed to delete category!', false)
     }
 
-    setIsTrashLoading(false)
+    setIsDeleteLoading(false)
   }
+
+  const handleOpenModal = () => setOpen(true)
+
+  const handleCloseModal = () => (isDeleteLoading ? {} : setOpen(false))
 
   const content = {
     title: '',
@@ -106,7 +113,7 @@ const CategoryContent = ({
       content.title = 'Edit Category'
       content.readOnly = false
       content.showDeleteIcon = true
-      content.deleteIconAction = handleDeleteCategory
+      content.deleteIconAction = handleOpenModal
       content.buttonText = 'Update'
       content.buttonAction = handleEditCategory
       content.buttonDisabled =
@@ -168,7 +175,7 @@ const CategoryContent = ({
             <IconButton
               type='delete'
               onPress={content.deleteIconAction}
-              loading={isTrashLoading}
+              loading={isDeleteLoading}
             />
 
             <View className='w-3' />
@@ -191,6 +198,16 @@ const CategoryContent = ({
           </>
         )}
       </View>
+
+      <Modal
+        open={open}
+        handleClose={handleCloseModal}
+        title='Confirm Delete Category?'
+        body='This action is irreversible!'
+        buttonText='Delete'
+        buttonAction={handleDeleteCategory}
+        buttonLoading={isDeleteLoading}
+      />
     </View>
   )
 }
