@@ -63,9 +63,9 @@ const Avatar = ({ uri, name }: { uri: string | null; name: string | null }) => {
   }
 
   return uri ? (
-    <Image source={{ uri }} className='mx-auto h-24 w-24 rounded-full' />
+    <Image source={{ uri }} className='mx-auto h-20 w-20 rounded-full' />
   ) : (
-    <View className='mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-white'>
+    <View className='mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white'>
       <Text className='-mb-1 text-center font-js-mid text-4xl leading-none text-neutral-700'>
         {getInitials(name ? name : '-')}
       </Text>
