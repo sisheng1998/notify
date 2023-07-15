@@ -7,7 +7,7 @@ import {
   ColorField,
   TagPreviewField,
   DateTimePreviewField,
-} from '../Common/Form'
+} from '../Form'
 import ScrollableContainer from '../Common/ScrollableContainer'
 import useBottomSheet from '../../hooks/useBottomSheet'
 import useToast from '../../hooks/useToast'

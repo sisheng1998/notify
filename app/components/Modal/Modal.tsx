@@ -15,9 +15,9 @@ const Modal = ({
     className='m-6'
     isVisible={open}
     animationIn='fadeIn'
-    animationInTiming={500}
+    animationInTiming={250}
     animationOut='fadeOut'
-    animationOutTiming={500}
+    animationOutTiming={250}
     hasBackdrop
     backdropOpacity={0.5}
     backdropTransitionOutTiming={0}

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, TouchableWithoutFeedback, ScrollView } from 'react-native'
 
 import Modal from './Modal'
-import { Option } from '../Common/Form'
+import { Option } from '../Form'
 import Button from '../Common/Button'
 import Search from '../Common/Search'
 import InfoMessage from '../Common/InfoMessage'
