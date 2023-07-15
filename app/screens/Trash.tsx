@@ -61,7 +61,9 @@ const Trash = () => {
         {policies.length === 0 || results.length === 0 ? (
           <InfoMessage
             text={
-              policies.length === 0 ? 'No Policy in Trash' : 'Policy Not Found'
+              policies.length === 0
+                ? 'No policy in trash.'
+                : 'Policy not found.'
             }
           />
         ) : (

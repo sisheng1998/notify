@@ -68,7 +68,9 @@ const Category = () => {
         {categories.length === 0 || results.length === 0 ? (
           <InfoMessage
             text={
-              categories.length === 0 ? 'No Category Yet' : 'Category Not Found'
+              categories.length === 0
+                ? 'No category yet.'
+                : 'Category not found.'
             }
           />
         ) : (

@@ -67,7 +67,9 @@ const Home = () => {
       >
         {policies.length === 0 || results.length === 0 ? (
           <InfoMessage
-            text={policies.length === 0 ? 'No Policy Yet' : 'Policy Not Found'}
+            text={
+              policies.length === 0 ? 'No policy yet.' : 'Policy not found.'
+            }
           />
         ) : (
           results.map((policy) => (
