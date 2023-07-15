@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 
 import Button, { IconButton } from '../Common/Button'
-import { TextField, AmountField, CategoryField, PeriodField } from '../Form'
+import {
+  TextField,
+  AmountField,
+  CategoryField,
+  PeriodField,
+  DateField,
+} from '../Form'
 import ScrollableContainer from '../Common/ScrollableContainer'
 import useBottomSheet from '../../hooks/useBottomSheet'
 import useToast from '../../hooks/useToast'
@@ -34,7 +40,7 @@ const PolicyContent = ({
   )
   const [plan, setPlan] = useState<string>(policy ? policy.plan : '')
   const [inforceDate, setInforceDate] = useState<string>(
-    policy ? policy.inforceDate : new Date().toISOString()
+    policy ? policy.inforceDate : ''
   )
   const [period, setPeriod] = useState<Period | ''>(policy ? policy.period : '')
   const [getNotified, setGetNotified] = useState<boolean>(
@@ -216,6 +222,16 @@ const PolicyContent = ({
         <PeriodField
           value={period}
           setValue={setPeriod}
+          required
+          readOnly={content.readOnly}
+        />
+
+        <View className='h-4' />
+
+        <DateField
+          label='In-Force Date'
+          value={inforceDate}
+          setValue={setInforceDate}
           required
           readOnly={content.readOnly}
         />

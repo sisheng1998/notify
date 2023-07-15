@@ -6,6 +6,7 @@ import { Option } from './SelectField'
 import AmountField from './AmountField'
 import CategoryField from './CategoryField'
 import PeriodField from './PeriodField'
+import DateField from './DateField'
 
 export {
   TextField,
@@ -16,4 +17,5 @@ export {
   AmountField,
   CategoryField,
   PeriodField,
+  DateField,
 }

@@ -55,19 +55,11 @@ const SelectField = ({
           readOnly={readOnly}
         />
       ) : (
-        <TouchableWithoutFeedback onPress={handleOpenModal}>
-          <View className='flex-row items-center justify-between space-x-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4'>
-            <Text
-              className={`font-js ${
-                selectedOption ? 'text-neutral-700' : 'text-neutral-400'
-              }`}
-            >
-              {selectedOption ? selectedOption.label : 'Select'}
-            </Text>
-
-            <ArrowDownIcon className='h-4 w-4 scale-125 text-neutral-700' />
-          </View>
-        </TouchableWithoutFeedback>
+        <DisplayField
+          text={selectedOption ? selectedOption.label : 'Select'}
+          onPress={handleOpenModal}
+          isFilled={selectedOption !== undefined}
+        />
       )}
 
       <SelectModal
@@ -82,5 +74,29 @@ const SelectField = ({
     </View>
   )
 }
+
+export const DisplayField = ({
+  text,
+  onPress,
+  isFilled,
+}: {
+  text: string
+  onPress: () => void
+  isFilled: boolean
+}) => (
+  <TouchableWithoutFeedback onPress={onPress}>
+    <View className='flex-row items-center justify-between space-x-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4'>
+      <Text
+        className={`font-js ${
+          isFilled ? 'text-neutral-700' : 'text-neutral-400'
+        }`}
+      >
+        {text}
+      </Text>
+
+      <ArrowDownIcon className='h-4 w-4 scale-125 text-neutral-700' />
+    </View>
+  </TouchableWithoutFeedback>
+)
 
 export default SelectField
