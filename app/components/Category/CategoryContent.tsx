@@ -14,7 +14,7 @@ import useToast from '../../hooks/useToast'
 import { addCategory, editCategory, deleteCategory } from '../../apis/category'
 import { Category } from '../../types/category'
 import { Action } from '../../types/action'
-import Modal from '../Common/Modal'
+import ConfirmationModal from '../Modal/ConfirmationModal'
 
 const CategoryContent = ({
   category,
@@ -226,7 +226,7 @@ const CategoryContent = ({
         )}
       </View>
 
-      <Modal
+      <ConfirmationModal
         open={open}
         handleClose={handleCloseModal}
         title='Confirm Delete Category?'

@@ -15,7 +15,7 @@ import SignOutIcon from '../icons/SignOut'
 import useToast from '../hooks/useToast'
 import useBottomSheet from '../hooks/useBottomSheet'
 import CategoryContent from './Category/CategoryContent'
-import Modal from './Common/Modal'
+import ConfirmationModal from './Modal/ConfirmationModal'
 import { deleteAllPoliciesInTrash } from '../apis/policy'
 import PolicyContent from './Policy/PolicyContent'
 
@@ -137,7 +137,7 @@ const EmptyTrash = () => {
         onPress={handleOpenModal}
       />
 
-      <Modal
+      <ConfirmationModal
         open={open}
         handleClose={handleCloseModal}
         title='Confirm Empty Trash?'

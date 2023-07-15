@@ -7,7 +7,7 @@ import ScrollableContainer from '../Common/ScrollableContainer'
 import useBottomSheet from '../../hooks/useBottomSheet'
 import useToast from '../../hooks/useToast'
 import { Action } from '../../types/action'
-import Modal from '../Common/Modal'
+import ConfirmationModal from '../Modal/ConfirmationModal'
 import { Policy } from '../../types/policy'
 import { editPolicy } from '../../apis/policy'
 
@@ -247,7 +247,7 @@ const PolicyContent = ({
         )}
       </View>
 
-      <Modal
+      <ConfirmationModal
         open={open}
         handleClose={handleCloseModal}
         title='Confirm Move to Trash?'
