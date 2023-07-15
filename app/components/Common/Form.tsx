@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableWithoutFeedback } from 'react-native'
 import moment from 'moment'
 import { TextInputMask } from 'react-native-masked-text'
@@ -9,10 +9,12 @@ import useColors from '../../hooks/useColors'
 import { DATETIME_FORMAT } from '../../constants/time'
 import Tag from './Tag'
 import useCategory from '../../hooks/useCategory'
+import SelectModal from '../Modal/SelectModal'
+import ArrowDownIcon from '../../icons/ArrowDown'
+import InfoMessage from './InfoMessage'
+import { Period, periods } from '../../types/policy'
 
-const Container = ({ children }: { children: ReactNode }) => (
-  <View className='space-y-1.5'>{children}</View>
-)
+const Spacer = () => <View className='h-1.5 w-full' />
 
 const Label = ({
   text,
@@ -42,22 +44,43 @@ export const TextField = ({
   required?: boolean
   readOnly?: boolean
 }) => (
-  <Container>
+  <View>
     <Label text={label} required={readOnly ? false : required} />
 
-    <TextInput
-      className='rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-js text-neutral-700'
+    <Spacer />
+
+    <TextInputField
       placeholder={placeholder}
-      placeholderTextColor={THEME.colors.border}
-      selectionColor={THEME.colors.body}
-      value={readOnly && value === '' ? '-' : value}
-      onChangeText={setValue}
-      autoComplete='off'
-      autoCorrect={false}
-      spellCheck={false}
-      editable={!readOnly}
+      value={value}
+      setValue={setValue}
+      readOnly={readOnly}
     />
-  </Container>
+  </View>
+)
+
+const TextInputField = ({
+  placeholder,
+  value,
+  setValue,
+  readOnly = false,
+}: {
+  placeholder: string
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  readOnly?: boolean
+}) => (
+  <TextInput
+    className='rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-js text-neutral-700'
+    placeholder={placeholder}
+    placeholderTextColor={THEME.colors.border}
+    selectionColor={THEME.colors.body}
+    value={readOnly && value === '' ? '-' : value}
+    onChangeText={setValue}
+    autoComplete='off'
+    autoCorrect={false}
+    spellCheck={false}
+    editable={!readOnly}
+  />
 )
 
 export const ColorField = ({
@@ -76,8 +99,10 @@ export const ColorField = ({
   const colors = useColors()
 
   return (
-    <Container>
+    <View>
       <Label text={label} required={readOnly ? false : required} />
+
+      <Spacer />
 
       <View className='flex-row flex-wrap'>
         {colors.map((color, index) => (
@@ -100,7 +125,7 @@ export const ColorField = ({
           </TouchableWithoutFeedback>
         ))}
       </View>
-    </Container>
+    </View>
   )
 }
 
@@ -111,17 +136,17 @@ export const TagPreviewField = ({
   text: string
   colorIndex: number
 }) => (
-  <Container>
+  <View>
     <Label text='Preview' />
+
+    <Spacer />
 
     {text === '' ? (
       <Text className='font-js text-neutral-700'>-</Text>
     ) : (
-      <View>
-        <Tag text={text} colorIndex={colorIndex} />
-      </View>
+      <Tag text={text} colorIndex={colorIndex} />
     )}
-  </Container>
+  </View>
 )
 
 export const DateTimePreviewField = ({
@@ -131,8 +156,10 @@ export const DateTimePreviewField = ({
   label: string
   time: string
 }) => (
-  <Container>
+  <View>
     <Label text={label} />
+
+    <Spacer />
 
     {time === '-' ? (
       <Text className='font-js text-neutral-700'>-</Text>
@@ -147,7 +174,7 @@ export const DateTimePreviewField = ({
         </Text>
       </View>
     )}
-  </Container>
+  </View>
 )
 
 export const AmountField = ({
@@ -163,8 +190,10 @@ export const AmountField = ({
   required?: boolean
   readOnly?: boolean
 }) => (
-  <Container>
+  <View>
     <Label text={label} required={readOnly ? false : required} />
+
+    <Spacer />
 
     <TextInputMask
       className='rounded-lg border border-neutral-200 bg-neutral-50 p-4 font-js text-neutral-700'
@@ -183,17 +212,86 @@ export const AmountField = ({
       onChangeText={(_, rawText) => setValue(rawText ? rawText : '0')}
       editable={!readOnly}
     />
-  </Container>
+  </View>
 )
 
-export const CategoryField = ({
+export interface Option {
+  label: string
+  value: string
+}
+
+const SelectField = ({
   label,
+  value,
+  setValue,
+  options,
+  required = false,
+  readOnly = false,
+  isSearchable = false,
+}: {
+  label: string
+  value: string
+  setValue: React.Dispatch<React.SetStateAction<string>>
+  options: Option[]
+  required?: boolean
+  readOnly?: boolean
+  isSearchable?: boolean
+}) => {
+  const [open, setOpen] = useState<boolean>(false)
+
+  const handleOpenModal = () => setOpen(true)
+  const handleCloseModal = () => setOpen(false)
+
+  const selectedOption = options.find((option) => option.value === value)
+
+  return (
+    <View>
+      <Label text={label} required={readOnly ? false : required} />
+
+      <Spacer />
+
+      {options.length === 0 ? (
+        <View className='-mb-2'>
+          <InfoMessage text={`${label} not found. Kindly add one first.`} />
+        </View>
+      ) : readOnly ? (
+        <TextInputField
+          placeholder=''
+          value={selectedOption ? selectedOption.label : '-'}
+          setValue={setValue}
+          readOnly={readOnly}
+        />
+      ) : (
+        <TouchableWithoutFeedback onPress={handleOpenModal}>
+          <View className='flex-row items-center justify-between space-x-2 rounded-lg border border-neutral-200 bg-neutral-50 p-4'>
+            <Text className='font-js text-neutral-700'>
+              {selectedOption ? selectedOption.label : 'Select'}
+            </Text>
+
+            <ArrowDownIcon className='h-4 w-4 scale-125 text-neutral-700' />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+
+      <SelectModal
+        open={open}
+        handleClose={handleCloseModal}
+        title={label}
+        options={options}
+        value={value}
+        setValue={setValue}
+        isSearchable={isSearchable}
+      />
+    </View>
+  )
+}
+
+export const CategoryField = ({
   value,
   setValue,
   required = false,
   readOnly = false,
 }: {
-  label: string
   value: string
   setValue: React.Dispatch<React.SetStateAction<string>>
   required?: boolean
@@ -202,8 +300,41 @@ export const CategoryField = ({
   const { categories } = useCategory()
 
   return (
-    <Container>
-      <Label text={label} required={readOnly ? false : required} />
-    </Container>
+    <SelectField
+      label='Category'
+      value={value}
+      setValue={setValue}
+      options={categories.map((category) => ({
+        label: category.name,
+        value: category.id,
+      }))}
+      required={required}
+      readOnly={readOnly}
+      isSearchable
+    />
   )
 }
+
+export const PeriodField = ({
+  value,
+  setValue,
+  required = false,
+  readOnly = false,
+}: {
+  value: Period | ''
+  setValue: React.Dispatch<React.SetStateAction<Period | ''>>
+  required?: boolean
+  readOnly?: boolean
+}) => (
+  <SelectField
+    label='Period'
+    value={value}
+    setValue={setValue as React.Dispatch<React.SetStateAction<string>>}
+    options={periods.map((period) => ({
+      label: period,
+      value: period,
+    }))}
+    required={required}
+    readOnly={readOnly}
+  />
+)

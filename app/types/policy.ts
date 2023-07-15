@@ -1,3 +1,12 @@
+export const periods = [
+  'Monthly',
+  'Quarterly',
+  'Half Yearly',
+  'Yearly',
+] as const
+
+export type Period = (typeof periods)[number]
+
 export type PolicyWithoutId = Omit<Policy, 'id'>
 
 export interface Policy extends AddPolicy {
@@ -15,7 +24,7 @@ export interface AddPolicy {
   amount: number
   plan: string
   inforceDate: string
-  period: number
+  period: Period
   getNotified: boolean
 }
 
@@ -26,7 +35,7 @@ export interface EditPolicy {
   amount?: number
   plan?: string
   inforceDate?: string
-  period?: number
+  period?: Period
   getNotified?: boolean
   isTrashed?: boolean
   updatedAt?: string
