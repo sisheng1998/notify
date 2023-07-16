@@ -273,9 +273,10 @@ const PolicyContent = ({
           </View>
 
           <View className='flex-1'>
-            <PeriodField
-              value={period}
-              setValue={setPeriod}
+            <DateField
+              label='In-Force Date'
+              value={inForceDate}
+              setValue={setInForceDate}
               required
               readOnly={content.readOnly}
             />
@@ -284,10 +285,9 @@ const PolicyContent = ({
 
         <View className='h-4' />
 
-        <DateField
-          label='In-Force Date'
-          value={inForceDate}
-          setValue={setInForceDate}
+        <PeriodField
+          value={period}
+          setValue={setPeriod}
           required
           readOnly={content.readOnly}
         />
@@ -295,7 +295,7 @@ const PolicyContent = ({
         <View className='h-4' />
 
         <TextField
-          label='Plan'
+          label='Plan Name'
           placeholder='e.g. SmartProtect Wealth Plus'
           value={plan}
           setValue={setPlan}

@@ -14,9 +14,7 @@ const Container = ({
 }) => (
   <SafeAreaView className='flex-1 bg-neutral-100'>
     <View className='relative z-10 bg-primary px-6 pt-2'>
-      <View className='-mb-6 h-12 overflow-hidden rounded-lg bg-white shadow-lg'>
-        {header}
-      </View>
+      <View className='-mb-6 h-12 rounded-lg bg-white shadow-sm'>{header}</View>
     </View>
 
     <View className='flex-1 overflow-hidden px-6 pb-12 pt-9'>

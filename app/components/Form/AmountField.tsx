@@ -6,6 +6,14 @@ import { THEME } from '../../constants/theme'
 import Label from './Label'
 import Spacer from './Spacer'
 
+export const moneyOptions = {
+  precision: 2,
+  separator: '.',
+  delimiter: ',',
+  unit: 'RM ',
+  suffixUnit: '',
+}
+
 const AmountField = ({
   label,
   value,
@@ -30,13 +38,7 @@ const AmountField = ({
       }`}
       selectionColor={THEME.colors.body}
       type='money'
-      options={{
-        precision: 2,
-        separator: '.',
-        delimiter: ',',
-        unit: 'RM ',
-        suffixUnit: '',
-      }}
+      options={moneyOptions}
       includeRawValueInChangeText
       keyboardType='numeric'
       value={value}

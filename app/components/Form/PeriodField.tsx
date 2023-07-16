@@ -15,7 +15,7 @@ const PeriodField = ({
   readOnly?: boolean
 }) => (
   <SelectField
-    label='Period'
+    label='Payment Frequency'
     value={value}
     setValue={setValue as React.Dispatch<React.SetStateAction<string>>}
     options={periods.map((period, index) => ({
