@@ -8,6 +8,7 @@ import {
   CategoryField,
   PeriodField,
   DateField,
+  ToggleField,
 } from '../Form'
 import ScrollableContainer from '../Common/ScrollableContainer'
 import useBottomSheet from '../../hooks/useBottomSheet'
@@ -163,9 +164,18 @@ const PolicyContent = ({
 
   return (
     <View className='flex-1 px-6'>
-      <Text className='mb-3 font-js-mid text-lg text-neutral-900'>
+      <Text className='mb-2 font-js-mid text-lg text-neutral-900'>
         {content.title}
       </Text>
+
+      <ToggleField
+        label='Notification'
+        value={getNotified}
+        setValue={setGetNotified}
+        readOnly={content.readOnly}
+      />
+
+      <View className='h-3' />
 
       <ScrollableContainer>
         <CategoryField

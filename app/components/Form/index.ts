@@ -7,6 +7,7 @@ import AmountField from './AmountField'
 import CategoryField from './CategoryField'
 import PeriodField from './PeriodField'
 import DateField from './DateField'
+import ToggleField from './ToggleField'
 
 export {
   TextField,
@@ -18,4 +19,5 @@ export {
   CategoryField,
   PeriodField,
   DateField,
+  ToggleField,
 }
