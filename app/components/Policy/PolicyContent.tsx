@@ -16,7 +16,7 @@ import useToast from '../../hooks/useToast'
 import { Action } from '../../types/action'
 import ConfirmationModal from '../Modal/ConfirmationModal'
 import { Policy, Period } from '../../types/policy'
-import { editPolicy } from '../../apis/policy'
+import { addPolicy, editPolicy } from '../../apis/policy'
 
 const PolicyContent = ({
   policy,
@@ -57,10 +57,16 @@ const PolicyContent = ({
     setIsLoading(true)
 
     try {
-      // await addCategory({
-      //   name,
-      //   color,
-      // })
+      await addPolicy({
+        categoryId,
+        name,
+        policyNo,
+        amount,
+        plan,
+        inforceDate,
+        period: period as Period,
+        getNotified,
+      })
       handleOpenBottomSheet()
       toast('New policy added!', true)
     } catch (error) {
@@ -70,24 +76,30 @@ const PolicyContent = ({
     setIsLoading(false)
   }
 
-  // const handleEditCategory = async () => {
-  //   if (!category) return
+  const handleEditPolicy = async () => {
+    if (!policy) return
 
-  //   setIsLoading(true)
+    setIsLoading(true)
 
-  //   try {
-  //     await editCategory(category.id, {
-  //       name,
-  //       color,
-  //     })
-  //     handleOpenBottomSheet()
-  //     toast('Category updated!', true)
-  //   } catch (error) {
-  //     toast('Failed to update category!', false)
-  //   }
+    try {
+      await editPolicy(policy.id, {
+        categoryId,
+        name,
+        policyNo,
+        amount,
+        plan,
+        inforceDate,
+        period: period as Period,
+        getNotified,
+      })
+      handleOpenBottomSheet()
+      toast('Policy updated!', true)
+    } catch (error) {
+      toast('Failed to update policy!', false)
+    }
 
-  //   setIsLoading(false)
-  // }
+    setIsLoading(false)
+  }
 
   const handleMoveToTrash = async () => {
     if (!policy) return
@@ -125,6 +137,14 @@ const PolicyContent = ({
     showXIcon: false,
   }
 
+  const isFilled =
+    categoryId !== '' &&
+    name !== '' &&
+    policyNo !== '' &&
+    amount !== '0' &&
+    period !== '' &&
+    inforceDate !== ''
+
   switch (action) {
     case 'ADD':
       content.title = 'New Policy'
@@ -133,35 +153,31 @@ const PolicyContent = ({
       content.deleteIconAction = () => {}
       content.buttonText = 'Add'
       content.buttonAction = handleAddPolicy
-      content.buttonDisabled = name === ''
+      content.buttonDisabled = !isFilled
       content.showXIcon = true
       break
 
-    // case 'EDIT':
-    //   content.title = 'Edit Category'
-    //   content.readOnly = false
-    //   content.showDeleteIcon = true
-    //   content.deleteIconAction = handleOpenModal
-    //   content.buttonText = 'Update'
-    //   content.buttonAction = handleEditCategory
-    //   content.buttonDisabled =
-    //     name === '' ||
-    //     (category !== undefined &&
-    //       name === category.name &&
-    //       color === category.color)
-    //   content.showXIcon = true
-    //   break
+    case 'EDIT':
+      content.title = 'Edit Policy'
+      content.readOnly = false
+      content.showDeleteIcon = true
+      content.deleteIconAction = handleOpenModal
+      content.buttonText = 'Update'
+      content.buttonAction = handleEditPolicy
+      content.buttonDisabled = !isFilled
+      content.showXIcon = true
+      break
 
-    // default: // VIEW
-    //   content.title = 'Category'
-    //   content.readOnly = true
-    //   content.showDeleteIcon = false
-    //   content.deleteIconAction = () => {}
-    //   content.buttonText = 'Edit'
-    //   content.buttonAction = handleEditMode
-    //   content.buttonDisabled = false
-    //   content.showXIcon = true
-    //   break
+    default: // VIEW
+      content.title = 'Policy'
+      content.readOnly = true
+      content.showDeleteIcon = false
+      content.deleteIconAction = () => {}
+      content.buttonText = 'Edit'
+      content.buttonAction = handleEditMode
+      content.buttonDisabled = false
+      content.showXIcon = true
+      break
   }
 
   return (

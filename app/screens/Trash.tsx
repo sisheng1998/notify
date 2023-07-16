@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 import Container from '../components/Common/Container'
 import useDebounce from '../hooks/useDebounce'
@@ -10,6 +10,10 @@ import { Policy } from '../types/policy'
 import InfoMessage from '../components/Common/InfoMessage'
 import useBottomSheet from '../hooks/useBottomSheet'
 import useCategory from '../hooks/useCategory'
+import { getPolicies } from '../apis/policy'
+import PolicyContent from '../components/Policy/PolicyContent'
+import PolicyCard from '../components/Policy/PolicyCard'
+import { Action } from '../types/action'
 
 const Trash = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
@@ -25,7 +29,12 @@ const Trash = () => {
   const [resetScroll, setResetScroll] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsLoading(false)
+    const subscriber = getPolicies(true, (policies: Policy[]) => {
+      setPolicies(policies)
+      if (isLoading) setIsLoading(false)
+    })
+
+    return () => subscriber()
   }, [])
 
   useEffect(() => {
@@ -40,6 +49,11 @@ const Trash = () => {
             policy.name.toLowerCase().includes(debouncedValue.toLowerCase()) ||
             policy.policyNo.toLowerCase().includes(debouncedValue.toLowerCase())
         )
+
+  const handlePolicyAction = (policy: Policy, action: Action) => {
+    setBottomSheetContent(<PolicyContent policy={policy} action={action} />)
+    handleOpenBottomSheet()
+  }
 
   return (
     <Container
@@ -68,9 +82,11 @@ const Trash = () => {
           />
         ) : (
           results.map((policy) => (
-            <View key={policy.id}>
-              <Text>{policy.name}</Text>
-            </View>
+            <PolicyCard
+              key={policy.id}
+              policy={policy}
+              handlePolicyAction={handlePolicyAction}
+            />
           ))
         )}
 

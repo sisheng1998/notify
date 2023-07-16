@@ -21,7 +21,7 @@ export interface AddPolicy {
   categoryId: string
   name: string
   policyNo: string
-  amount: number
+  amount: string
   plan: string
   inforceDate: string
   period: Period
@@ -32,7 +32,7 @@ export interface EditPolicy {
   categoryId?: string
   name?: string
   policyNo?: string
-  amount?: number
+  amount?: string
   plan?: string
   inforceDate?: string
   period?: Period
