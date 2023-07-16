@@ -70,6 +70,10 @@ export const editPolicy = async (id: string, data: EditPolicy) => {
   await collection.doc(id).update(policy)
 }
 
+export const deletePolicy = async (id: string) => {
+  await collection.doc(id).delete()
+}
+
 export const deleteAllPoliciesInTrash = async () => {
   const userId = getUserId()
 

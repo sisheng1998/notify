@@ -9,6 +9,7 @@ import {
   PeriodField,
   DateField,
   ToggleField,
+  DateTimePreviewField,
 } from '../Form'
 import ScrollableContainer from '../Common/ScrollableContainer'
 import useBottomSheet from '../../hooks/useBottomSheet'
@@ -16,7 +17,7 @@ import useToast from '../../hooks/useToast'
 import { Action } from '../../types/action'
 import ConfirmationModal from '../Modal/ConfirmationModal'
 import { Policy, Period } from '../../types/policy'
-import { addPolicy, editPolicy } from '../../apis/policy'
+import { addPolicy, deletePolicy, editPolicy } from '../../apis/policy'
 
 const PolicyContent = ({
   policy,
@@ -36,12 +37,10 @@ const PolicyContent = ({
   const [policyNo, setPolicyNo] = useState<string>(
     policy ? policy.policyNo : ''
   )
-  const [amount, setAmount] = useState<string>(
-    policy ? policy.amount.toString() : '0'
-  )
+  const [amount, setAmount] = useState<string>(policy ? policy.amount : '0')
   const [plan, setPlan] = useState<string>(policy ? policy.plan : '')
-  const [inforceDate, setInforceDate] = useState<string>(
-    policy ? policy.inforceDate : ''
+  const [inForceDate, setInForceDate] = useState<string>(
+    policy ? policy.inForceDate : ''
   )
   const [period, setPeriod] = useState<Period | ''>(policy ? policy.period : '')
   const [getNotified, setGetNotified] = useState<boolean>(
@@ -50,8 +49,7 @@ const PolicyContent = ({
 
   const [open, setOpen] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isMoveToTrashLoading, setIsMoveToTrashLoading] =
-    useState<boolean>(false)
+  const [isTrashIconLoading, setIsTrashIconLoading] = useState<boolean>(false)
 
   const handleAddPolicy = async () => {
     setIsLoading(true)
@@ -63,7 +61,7 @@ const PolicyContent = ({
         policyNo,
         amount,
         plan,
-        inforceDate,
+        inForceDate,
         period: period as Period,
         getNotified,
       })
@@ -76,55 +74,88 @@ const PolicyContent = ({
     setIsLoading(false)
   }
 
-  const handleEditPolicy = async () => {
+  const handleEditPolicy = async (isRestore: boolean = false) => {
     if (!policy) return
 
     setIsLoading(true)
 
     try {
-      await editPolicy(policy.id, {
-        categoryId,
-        name,
-        policyNo,
-        amount,
-        plan,
-        inforceDate,
-        period: period as Period,
-        getNotified,
-      })
+      await editPolicy(
+        policy.id,
+        isRestore
+          ? {
+              isTrashed: false,
+            }
+          : {
+              categoryId,
+              name,
+              policyNo,
+              amount,
+              plan,
+              inForceDate,
+              period: period as Period,
+              getNotified,
+            }
+      )
       handleOpenBottomSheet()
-      toast('Policy updated!', true)
+      toast(`Policy ${isRestore ? 'restored' : 'updated'}!`, true)
     } catch (error) {
-      toast('Failed to update policy!', false)
+      toast(`Failed to ${isRestore ? 'restored' : 'updated'} policy!`, false)
     }
 
     setIsLoading(false)
   }
 
-  const handleMoveToTrash = async () => {
+  const handleDelete = async (isMoveToTrash: boolean = false) => {
     if (!policy) return
 
-    setIsMoveToTrashLoading(true)
+    setIsTrashIconLoading(true)
 
     try {
-      await editPolicy(policy.id, {
-        isTrashed: true,
-      })
+      isMoveToTrash
+        ? await editPolicy(policy.id, {
+            isTrashed: true,
+          })
+        : await deletePolicy(policy.id)
       setOpen(false)
       handleOpenBottomSheet()
-      toast('Policy moved to trash!', true)
+      toast(`Policy ${isMoveToTrash ? 'moved to trash' : 'deleted'}!`, true)
     } catch (error) {
-      toast('Failed to move policy to trash!', false)
+      toast(
+        `Failed to ${
+          isMoveToTrash ? 'move policy to trash' : 'delete policy'
+        }!`,
+        false
+      )
     }
 
-    setIsMoveToTrashLoading(false)
+    setIsTrashIconLoading(false)
   }
 
   const handleOpenModal = () => setOpen(true)
-  const handleCloseModal = () => (isMoveToTrashLoading ? {} : setOpen(false))
+  const handleCloseModal = () => (isTrashIconLoading ? {} : setOpen(false))
 
   const handleEditMode = () =>
     setBottomSheetContent(<PolicyContent policy={policy} action='EDIT' />)
+
+  const isFilled =
+    categoryId !== '' &&
+    name !== '' &&
+    policyNo !== '' &&
+    amount !== '0' &&
+    period !== '' &&
+    inForceDate !== ''
+
+  const isSameValue =
+    policy !== undefined &&
+    categoryId === policy.categoryId &&
+    name === policy.name &&
+    policyNo === policy.policyNo &&
+    amount === policy.amount &&
+    period === policy.period &&
+    inForceDate === policy.inForceDate &&
+    plan === policy.plan &&
+    getNotified === policy.getNotified
 
   const content = {
     title: '',
@@ -136,14 +167,6 @@ const PolicyContent = ({
     buttonDisabled: false,
     showXIcon: false,
   }
-
-  const isFilled =
-    categoryId !== '' &&
-    name !== '' &&
-    policyNo !== '' &&
-    amount !== '0' &&
-    period !== '' &&
-    inforceDate !== ''
 
   switch (action) {
     case 'ADD':
@@ -163,8 +186,19 @@ const PolicyContent = ({
       content.showDeleteIcon = true
       content.deleteIconAction = handleOpenModal
       content.buttonText = 'Update'
-      content.buttonAction = handleEditPolicy
-      content.buttonDisabled = !isFilled
+      content.buttonAction = () => handleEditPolicy(false)
+      content.buttonDisabled = !isFilled || isSameValue
+      content.showXIcon = true
+      break
+
+    case 'DELETE':
+      content.title = 'Policy'
+      content.readOnly = true
+      content.showDeleteIcon = true
+      content.deleteIconAction = handleOpenModal
+      content.buttonText = 'Restore'
+      content.buttonAction = () => handleEditPolicy(true)
+      content.buttonDisabled = false
       content.showXIcon = true
       break
 
@@ -227,10 +261,33 @@ const PolicyContent = ({
 
         <View className='h-4' />
 
-        <AmountField
-          label='Amount'
-          value={amount}
-          setValue={setAmount}
+        <View className='flex-row items-center justify-between space-x-4'>
+          <View className='flex-1'>
+            <AmountField
+              label='Amount'
+              value={amount}
+              setValue={setAmount}
+              required
+              readOnly={content.readOnly}
+            />
+          </View>
+
+          <View className='flex-1'>
+            <PeriodField
+              value={period}
+              setValue={setPeriod}
+              required
+              readOnly={content.readOnly}
+            />
+          </View>
+        </View>
+
+        <View className='h-4' />
+
+        <DateField
+          label='In-Force Date'
+          value={inForceDate}
+          setValue={setInForceDate}
           required
           readOnly={content.readOnly}
         />
@@ -245,24 +302,22 @@ const PolicyContent = ({
           readOnly={content.readOnly}
         />
 
-        <View className='h-4' />
+        {policy !== undefined && (
+          <>
+            <View className='h-4' />
 
-        <PeriodField
-          value={period}
-          setValue={setPeriod}
-          required
-          readOnly={content.readOnly}
-        />
+            <DateTimePreviewField label='Created At' time={policy.createdAt} />
 
-        <View className='h-4' />
+            <View className='h-4' />
 
-        <DateField
-          label='In-Force Date'
-          value={inforceDate}
-          setValue={setInforceDate}
-          required
-          readOnly={content.readOnly}
-        />
+            <DateTimePreviewField
+              label='Last Updated'
+              time={
+                policy.createdAt === policy.updatedAt ? '-' : policy.updatedAt
+              }
+            />
+          </>
+        )}
       </ScrollableContainer>
 
       <View className='my-4 h-px bg-neutral-200' />
@@ -273,7 +328,7 @@ const PolicyContent = ({
             <IconButton
               type='delete'
               onPress={content.deleteIconAction}
-              loading={isMoveToTrashLoading}
+              loading={isTrashIconLoading}
             />
 
             <View className='w-3' />
@@ -297,15 +352,25 @@ const PolicyContent = ({
         )}
       </View>
 
-      <ConfirmationModal
-        open={open}
-        handleClose={handleCloseModal}
-        title='Confirm Move to Trash?'
-        body='This policy will be moved to trash. It can be restored from trash later.'
-        buttonText='Move to Trash'
-        buttonAction={handleMoveToTrash}
-        buttonLoading={isMoveToTrashLoading}
-      />
+      {policy !== undefined && (
+        <ConfirmationModal
+          open={open}
+          handleClose={handleCloseModal}
+          title={
+            policy.isTrashed
+              ? 'Confirm Delete Policy?'
+              : 'Confirm Move to Trash?'
+          }
+          body={
+            policy.isTrashed
+              ? 'This action is irreversible!'
+              : 'This policy will be moved to trash. It can be restored from trash later.'
+          }
+          buttonText={policy.isTrashed ? 'Delete' : 'Move to Trash'}
+          buttonAction={() => handleDelete(!policy.isTrashed)}
+          buttonLoading={isTrashIconLoading}
+        />
+      )}
     </View>
   )
 }

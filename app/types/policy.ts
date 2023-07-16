@@ -23,7 +23,7 @@ export interface AddPolicy {
   policyNo: string
   amount: string
   plan: string
-  inforceDate: string
+  inForceDate: string
   period: Period
   getNotified: boolean
 }
@@ -34,7 +34,7 @@ export interface EditPolicy {
   policyNo?: string
   amount?: string
   plan?: string
-  inforceDate?: string
+  inForceDate?: string
   period?: Period
   getNotified?: boolean
   isTrashed?: boolean

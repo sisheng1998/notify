@@ -13,7 +13,9 @@ const PolicyCard = ({
 }) => {
   return (
     <TouchableWithoutFeedback
-      onPress={() => handlePolicyAction(policy, 'VIEW')}
+      onPress={() =>
+        handlePolicyAction(policy, policy.isTrashed ? 'DELETE' : 'VIEW')
+      }
     >
       <View>
         <Text>{policy.name}</Text>

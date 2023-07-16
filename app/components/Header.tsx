@@ -141,7 +141,7 @@ const EmptyTrash = () => {
         open={open}
         handleClose={handleCloseModal}
         title='Confirm Empty Trash?'
-        body='This action is irreversible!'
+        body='All policies in the trash will be deleted. This action is irreversible!'
         buttonText='Empty Trash'
         buttonAction={handleEmptyTrash}
         buttonLoading={isLoading}

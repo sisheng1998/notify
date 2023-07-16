@@ -93,6 +93,11 @@ const CategoryContent = ({
   const handleEditMode = () =>
     setBottomSheetContent(<CategoryContent category={category} action='EDIT' />)
 
+  const isFilled = name !== ''
+
+  const isSameValue =
+    category !== undefined && name === category.name && color === category.color
+
   const content = {
     title: '',
     readOnly: false,
@@ -112,7 +117,7 @@ const CategoryContent = ({
       content.deleteIconAction = () => {}
       content.buttonText = 'Add'
       content.buttonAction = handleAddCategory
-      content.buttonDisabled = name === ''
+      content.buttonDisabled = !isFilled
       content.showXIcon = true
       break
 
@@ -123,11 +128,7 @@ const CategoryContent = ({
       content.deleteIconAction = handleOpenModal
       content.buttonText = 'Update'
       content.buttonAction = handleEditCategory
-      content.buttonDisabled =
-        name === '' ||
-        (category !== undefined &&
-          name === category.name &&
-          color === category.color)
+      content.buttonDisabled = !isFilled || isSameValue
       content.showXIcon = true
       break
 
@@ -228,15 +229,17 @@ const CategoryContent = ({
         )}
       </View>
 
-      <ConfirmationModal
-        open={open}
-        handleClose={handleCloseModal}
-        title='Confirm Delete Category?'
-        body='This action is irreversible!'
-        buttonText='Delete'
-        buttonAction={handleDeleteCategory}
-        buttonLoading={isDeleteLoading}
-      />
+      {category !== undefined && (
+        <ConfirmationModal
+          open={open}
+          handleClose={handleCloseModal}
+          title='Confirm Delete Category?'
+          body='This action is irreversible!'
+          buttonText='Delete'
+          buttonAction={handleDeleteCategory}
+          buttonLoading={isDeleteLoading}
+        />
+      )}
     </View>
   )
 }
