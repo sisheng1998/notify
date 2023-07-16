@@ -27,7 +27,7 @@ const PolicyContent = ({
 }) => {
   const toast = useToast()
 
-  const { handleOpenBottomSheet } = useBottomSheet()
+  const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
   const [categoryId, setCategoryId] = useState<string>(
     policy ? policy.categoryId : ''
@@ -109,8 +109,10 @@ const PolicyContent = ({
   }
 
   const handleOpenModal = () => setOpen(true)
-
   const handleCloseModal = () => (isMoveToTrashLoading ? {} : setOpen(false))
+
+  const handleEditMode = () =>
+    setBottomSheetContent(<PolicyContent policy={policy} action='EDIT' />)
 
   const content = {
     title: '',
@@ -155,10 +157,10 @@ const PolicyContent = ({
     //   content.readOnly = true
     //   content.showDeleteIcon = false
     //   content.deleteIconAction = () => {}
-    //   content.buttonText = 'Close'
-    //   content.buttonAction = handleOpenBottomSheet
+    //   content.buttonText = 'Edit'
+    //   content.buttonAction = handleEditMode
     //   content.buttonDisabled = false
-    //   content.showXIcon = false
+    //   content.showXIcon = true
     //   break
   }
 

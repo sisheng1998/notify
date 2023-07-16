@@ -25,7 +25,7 @@ const CategoryContent = ({
 }) => {
   const toast = useToast()
 
-  const { handleOpenBottomSheet } = useBottomSheet()
+  const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
 
   const [name, setName] = useState<string>(category ? category.name : '')
   const [color, setColor] = useState<number>(category ? category.color : 0)
@@ -88,8 +88,10 @@ const CategoryContent = ({
   }
 
   const handleOpenModal = () => setOpen(true)
-
   const handleCloseModal = () => (isDeleteLoading ? {} : setOpen(false))
+
+  const handleEditMode = () =>
+    setBottomSheetContent(<CategoryContent category={category} action='EDIT' />)
 
   const content = {
     title: '',
@@ -134,10 +136,10 @@ const CategoryContent = ({
       content.readOnly = true
       content.showDeleteIcon = false
       content.deleteIconAction = () => {}
-      content.buttonText = 'Close'
-      content.buttonAction = handleOpenBottomSheet
+      content.buttonText = 'Edit'
+      content.buttonAction = handleEditMode
       content.buttonDisabled = false
-      content.showXIcon = false
+      content.showXIcon = true
       break
   }
 
