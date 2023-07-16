@@ -24,7 +24,7 @@ const ConfirmationModal = ({
   <Modal open={open} handleClose={handleClose}>
     <Text className='mb-2 font-js-mid text-lg text-neutral-900'>{title}</Text>
 
-    <Text className='font-js text-neutral-500'>{body}</Text>
+    <Text className='font-js text-sm text-neutral-500'>{body}</Text>
 
     <View className='mt-16 flex-row items-center justify-end'>
       {!buttonLoading && (

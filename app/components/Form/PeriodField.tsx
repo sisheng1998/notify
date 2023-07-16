@@ -18,10 +18,10 @@ const PeriodField = ({
     label='Period'
     value={value}
     setValue={setValue as React.Dispatch<React.SetStateAction<string>>}
-    options={periods.map((period) => ({
+    options={periods.map((period, index) => ({
       label: period,
       value: period,
-      color: -1,
+      color: index,
     }))}
     required={required}
     readOnly={readOnly}
