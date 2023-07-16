@@ -11,6 +11,7 @@ import { TextInputField } from './TextField'
 export interface Option {
   label: string
   value: string
+  color: number
 }
 
 const SelectField = ({

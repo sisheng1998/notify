@@ -7,6 +7,7 @@ import Label from './Label'
 import Spacer from './Spacer'
 import { TextInputField } from './TextField'
 import { DisplayField } from './SelectField'
+import { DATE_FORMAT } from '../../constants/time'
 
 const DateField = ({
   label,
@@ -23,7 +24,7 @@ const DateField = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false)
 
-  const today = moment().toDate()
+  const today = moment().startOf('day').toDate()
 
   const handleOpenModal = () => setOpen(true)
   const handleCloseModal = () => setOpen(false)
@@ -55,11 +56,11 @@ const DateField = ({
         theme='light'
         title={null}
         open={open}
-        date={value === '' ? today : moment(value).toDate()}
+        date={value === '' ? today : moment(value, DATE_FORMAT).toDate()}
         maximumDate={today}
         androidVariant='iosClone'
         onConfirm={(date) => {
-          console.log(date)
+          setValue(moment(date).format(DATE_FORMAT))
           handleCloseModal()
         }}
         onCancel={handleCloseModal}

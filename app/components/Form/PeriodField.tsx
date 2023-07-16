@@ -21,6 +21,7 @@ const PeriodField = ({
     options={periods.map((period) => ({
       label: period,
       value: period,
+      color: -1,
     }))}
     required={required}
     readOnly={readOnly}

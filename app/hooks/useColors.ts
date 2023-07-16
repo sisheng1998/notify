@@ -5,6 +5,11 @@ interface Color {
   background: string
 }
 
+const primaryColor: Color = {
+  text: '#ED1C24',
+  background: 'rgba(237, 28, 36, 0.05)',
+}
+
 const useColors = () => {
   const COLORS: Color[] = [
     {
@@ -41,6 +46,8 @@ const useColors = () => {
 }
 
 export const getColor = (color: number) => {
+  if (color < 0) return primaryColor
+
   const colors = useColors()
   return colors[color % colors.length]
 }

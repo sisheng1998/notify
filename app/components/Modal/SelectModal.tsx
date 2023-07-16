@@ -8,6 +8,7 @@ import Search from '../Common/Search'
 import InfoMessage from '../Common/InfoMessage'
 import CheckIcon from '../../icons/Check'
 import useDebounce from '../../hooks/useDebounce'
+import { getColor } from '../../hooks/useColors'
 
 const SelectModal = ({
   open,
@@ -72,7 +73,7 @@ const SelectModal = ({
             return (
               <OptionCard
                 key={index}
-                label={option.label}
+                option={option}
                 onPress={handleSelect}
                 isSelected={isSelected}
               />
@@ -93,45 +94,45 @@ const SelectModal = ({
 }
 
 const OptionCard = ({
-  label,
+  option,
   onPress,
   isSelected,
 }: {
-  label: string
+  option: Option
   onPress: () => void
   isSelected: boolean
-}) => (
-  <TouchableWithoutFeedback onPress={onPress}>
-    <View
-      className={`mb-2 flex-row items-center justify-between space-x-2 rounded-lg border p-3.5 pl-4 ${
-        isSelected
-          ? 'border-primary bg-primary/5'
-          : 'border-neutral-300 bg-transparent'
-      }`}
-    >
-      <Text
-        className={`flex-1 font-js ${
-          isSelected ? 'text-primary' : 'text-neutral-700'
-        }`}
-      >
-        {label}
-      </Text>
+}) => {
+  const color = getColor(option.color)
 
+  return (
+    <TouchableWithoutFeedback onPress={onPress}>
       <View
-        className={`rounded-full border p-1 ${
-          isSelected
-            ? 'border-primary bg-white'
-            : 'border-neutral-300 bg-transparent'
-        }`}
+        className='mb-2 flex-row items-center justify-between space-x-2 rounded-lg border p-3.5 pl-4'
+        style={{
+          backgroundColor: color.background,
+          borderColor: isSelected ? color.text : 'transparent',
+        }}
       >
-        <CheckIcon
-          className={`h-3 w-3 scale-150 ${
-            isSelected ? 'text-primary' : 'text-transparent'
-          }`}
-        />
+        <Text className='flex-1 font-js-mid' style={{ color: color.text }}>
+          {option.label}
+        </Text>
+
+        <View
+          className='rounded-full border p-1'
+          style={{
+            backgroundColor: isSelected ? color.text : 'transparent',
+            borderColor: color.text,
+          }}
+        >
+          <CheckIcon
+            className={`h-3 w-3 scale-150 ${
+              isSelected ? 'text-white' : 'text-transparent'
+            }`}
+          />
+        </View>
       </View>
-    </View>
-  </TouchableWithoutFeedback>
-)
+    </TouchableWithoutFeedback>
+  )
+}
 
 export default SelectModal

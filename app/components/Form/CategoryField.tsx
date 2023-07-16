@@ -24,6 +24,7 @@ const CategoryField = ({
       options={categories.map((category) => ({
         label: category.name,
         value: category.id,
+        color: category.color,
       }))}
       required={required}
       readOnly={readOnly}
