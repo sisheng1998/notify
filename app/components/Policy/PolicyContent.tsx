@@ -6,7 +6,7 @@ import {
   TextField,
   AmountField,
   CategoryField,
-  PeriodField,
+  PaymentFrequencyField,
   DateField,
   ToggleField,
   DateTimePreviewField,
@@ -16,7 +16,7 @@ import useBottomSheet from '../../hooks/useBottomSheet'
 import useToast from '../../hooks/useToast'
 import { Action } from '../../types/action'
 import ConfirmationModal from '../Modal/ConfirmationModal'
-import { Policy, Period } from '../../types/policy'
+import { Policy, PaymentFrequency } from '../../types/policy'
 import { addPolicy, deletePolicy, editPolicy } from '../../apis/policy'
 
 const PolicyContent = ({
@@ -42,7 +42,9 @@ const PolicyContent = ({
   const [inForceDate, setInForceDate] = useState<string>(
     policy ? policy.inForceDate : ''
   )
-  const [period, setPeriod] = useState<Period | ''>(policy ? policy.period : '')
+  const [paymentFrequency, setPaymentFrequency] = useState<
+    PaymentFrequency | ''
+  >(policy ? policy.paymentFrequency : '')
   const [getNotified, setGetNotified] = useState<boolean>(
     policy ? policy.getNotified : true
   )
@@ -62,7 +64,7 @@ const PolicyContent = ({
         amount,
         plan,
         inForceDate,
-        period: period as Period,
+        paymentFrequency: paymentFrequency as PaymentFrequency,
         getNotified,
       })
       handleOpenBottomSheet()
@@ -93,7 +95,7 @@ const PolicyContent = ({
               amount,
               plan,
               inForceDate,
-              period: period as Period,
+              paymentFrequency: paymentFrequency as PaymentFrequency,
               getNotified,
             }
       )
@@ -143,7 +145,7 @@ const PolicyContent = ({
     name !== '' &&
     policyNo !== '' &&
     amount !== '0' &&
-    period !== '' &&
+    paymentFrequency !== '' &&
     inForceDate !== ''
 
   const isSameValue =
@@ -152,7 +154,7 @@ const PolicyContent = ({
     name === policy.name &&
     policyNo === policy.policyNo &&
     amount === policy.amount &&
-    period === policy.period &&
+    paymentFrequency === policy.paymentFrequency &&
     inForceDate === policy.inForceDate &&
     plan === policy.plan &&
     getNotified === policy.getNotified
@@ -285,9 +287,9 @@ const PolicyContent = ({
 
         <View className='h-4' />
 
-        <PeriodField
-          value={period}
-          setValue={setPeriod}
+        <PaymentFrequencyField
+          value={paymentFrequency}
+          setValue={setPaymentFrequency}
           required
           readOnly={content.readOnly}
         />
@@ -295,7 +297,7 @@ const PolicyContent = ({
         <View className='h-4' />
 
         <TextField
-          label='Plan Name'
+          label='Plan'
           placeholder='e.g. SmartProtect Wealth Plus'
           value={plan}
           setValue={setPlan}

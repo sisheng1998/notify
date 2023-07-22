@@ -1,11 +1,11 @@
-export const periods = [
+export const paymentFrequencies = [
   'Monthly',
   'Quarterly',
   'Half Yearly',
   'Yearly',
 ] as const
 
-export type Period = (typeof periods)[number]
+export type PaymentFrequency = (typeof paymentFrequencies)[number]
 
 export type OmittedPolicy = Omit<Policy, 'id' | 'paymentDueDate'>
 
@@ -25,7 +25,7 @@ export interface AddPolicy {
   amount: string
   plan: string
   inForceDate: string
-  period: Period
+  paymentFrequency: PaymentFrequency
   getNotified: boolean
 }
 
@@ -36,7 +36,7 @@ export interface EditPolicy {
   amount?: string
   plan?: string
   inForceDate?: string
-  period?: Period
+  paymentFrequency?: PaymentFrequency
   getNotified?: boolean
   isTrashed?: boolean
   updatedAt?: string

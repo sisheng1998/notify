@@ -87,7 +87,7 @@ const PolicyCard = ({
 
           <View className='flex-1'>
             <Text className='mb-0.5 font-js text-xs text-neutral-500'>
-              Amount - {policy.period}
+              Amount - {policy.paymentFrequency}
             </Text>
 
             <Text className='font-js-mid text-base text-neutral-900'>

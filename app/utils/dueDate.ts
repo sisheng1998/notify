@@ -1,11 +1,11 @@
 import moment from 'moment'
 
 import { DATE_FORMAT } from '../constants/time'
-import { Period } from '../types/policy'
+import { PaymentFrequency } from '../types/policy'
 
 export const getNextPaymentDate = (
   inForceDate: string,
-  paymentFrequency: Period
+  paymentFrequency: PaymentFrequency
 ) => {
   const inForceDateObj = moment(inForceDate, DATE_FORMAT)
 
@@ -24,7 +24,7 @@ export const getNextPaymentDate = (
   return nextPaymentDate
 }
 
-const getInterval = (paymentFrequency: Period) => {
+const getInterval = (paymentFrequency: PaymentFrequency) => {
   switch (paymentFrequency) {
     case 'Quarterly':
       return 'quarters'
@@ -36,7 +36,7 @@ const getInterval = (paymentFrequency: Period) => {
   }
 }
 
-const getFrequencyMultiplier = (paymentFrequency: Period) => {
+const getFrequencyMultiplier = (paymentFrequency: PaymentFrequency) => {
   switch (paymentFrequency) {
     case 'Quarterly':
       return 3

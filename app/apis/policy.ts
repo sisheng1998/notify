@@ -26,7 +26,10 @@ export const getPolicies = (
 
       policies.push({
         id: doc.id,
-        paymentDueDate: getNextPaymentDate(data.inForceDate, data.period),
+        paymentDueDate: getNextPaymentDate(
+          data.inForceDate,
+          data.paymentFrequency
+        ),
         ...data,
       })
     })

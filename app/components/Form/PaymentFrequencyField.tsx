@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { Period, periods } from '../../types/policy'
+import { PaymentFrequency, paymentFrequencies } from '../../types/policy'
 import SelectField from './SelectField'
 
-const PeriodField = ({
+const PaymentFrequencyField = ({
   value,
   setValue,
   required = false,
   readOnly = false,
 }: {
-  value: Period | ''
-  setValue: React.Dispatch<React.SetStateAction<Period | ''>>
+  value: PaymentFrequency | ''
+  setValue: React.Dispatch<React.SetStateAction<PaymentFrequency | ''>>
   required?: boolean
   readOnly?: boolean
 }) => (
@@ -18,9 +18,9 @@ const PeriodField = ({
     label='Payment Frequency'
     value={value}
     setValue={setValue as React.Dispatch<React.SetStateAction<string>>}
-    options={periods.map((period, index) => ({
-      label: period,
-      value: period,
+    options={paymentFrequencies.map((PaymentFrequency, index) => ({
+      label: PaymentFrequency,
+      value: PaymentFrequency,
       color: index,
     }))}
     required={required}
@@ -28,4 +28,4 @@ const PeriodField = ({
   />
 )
 
-export default PeriodField
+export default PaymentFrequencyField
