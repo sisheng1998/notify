@@ -76,7 +76,7 @@ const PolicyCard = ({
 
             <View className='flex-row items-center space-x-1.5'>
               <Text className='font-js-mid text-base text-neutral-900'>
-                {policy.inForceDate}
+                {policy.paymentDueDate}
               </Text>
 
               {policy.getNotified && (

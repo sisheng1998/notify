@@ -15,6 +15,7 @@ import useCategory from '../hooks/useCategory'
 import { getPolicies } from '../apis/policy'
 import { Action } from '../types/action'
 import PolicyCard from '../components/Policy/PolicyCard'
+import { sortByPaymentDueDate } from '../utils/sort'
 
 const Home = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
@@ -31,7 +32,8 @@ const Home = () => {
 
   useEffect(() => {
     const subscriber = getPolicies(false, (policies: Policy[]) => {
-      setPolicies(policies)
+      const sortedPolicies = sortByPaymentDueDate(policies)
+      setPolicies(sortedPolicies)
       if (isLoading) setIsLoading(false)
     })
 

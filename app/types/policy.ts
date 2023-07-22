@@ -7,11 +7,12 @@ export const periods = [
 
 export type Period = (typeof periods)[number]
 
-export type PolicyWithoutId = Omit<Policy, 'id'>
+export type OmittedPolicy = Omit<Policy, 'id' | 'paymentDueDate'>
 
 export interface Policy extends AddPolicy {
   id: string
   userId: string
+  paymentDueDate: string
   isTrashed: boolean
   createdAt: string
   updatedAt: string

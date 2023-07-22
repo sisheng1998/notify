@@ -3,7 +3,8 @@ import firestore, {
 } from '@react-native-firebase/firestore'
 
 import { getUserId } from './user'
-import { AddPolicy, Policy, PolicyWithoutId, EditPolicy } from '../types/policy'
+import { AddPolicy, Policy, OmittedPolicy, EditPolicy } from '../types/policy'
+import { getNextPaymentDate } from '../utils/dueDate'
 
 const collection = firestore().collection('policies')
 
@@ -21,10 +22,11 @@ export const getPolicies = (
     const policies: Policy[] = []
 
     querySnapshot.forEach((doc) => {
-      const data = doc.data() as PolicyWithoutId
+      const data = doc.data() as OmittedPolicy
 
       policies.push({
         id: doc.id,
+        paymentDueDate: getNextPaymentDate(data.inForceDate, data.period),
         ...data,
       })
     })
@@ -48,7 +50,7 @@ export const addPolicy = async (data: AddPolicy) => {
 
   const now = new Date().toISOString()
 
-  const policy: PolicyWithoutId = {
+  const policy: OmittedPolicy = {
     ...data,
     userId,
     createdAt: now,

@@ -14,6 +14,7 @@ import { getPolicies } from '../apis/policy'
 import PolicyContent from '../components/Policy/PolicyContent'
 import PolicyCard from '../components/Policy/PolicyCard'
 import { Action } from '../types/action'
+import { sortByPaymentDueDate } from '../utils/sort'
 
 const Trash = () => {
   const { handleOpenBottomSheet, setBottomSheetContent } = useBottomSheet()
@@ -30,7 +31,8 @@ const Trash = () => {
 
   useEffect(() => {
     const subscriber = getPolicies(true, (policies: Policy[]) => {
-      setPolicies(policies)
+      const sortedPolicies = sortByPaymentDueDate(policies)
+      setPolicies(sortedPolicies)
       if (isLoading) setIsLoading(false)
     })
 
