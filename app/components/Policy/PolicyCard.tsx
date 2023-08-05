@@ -1,14 +1,13 @@
 import React from 'react'
 import { View, Text, TouchableWithoutFeedback } from 'react-native'
-import { MaskService } from 'react-native-masked-text'
 
 import { Policy } from '../../types/policy'
 import { Action } from '../../types/action'
 import EditIcon from '../../icons/Edit'
 import Tag from '../Common/Tag'
 import useCategory from '../../hooks/useCategory'
-import { moneyOptions } from '../Form/AmountField'
 import NotificationIcon from '../../icons/Notification'
+import { formatAmount } from '../../utils/formatAmount'
 
 const PolicyCard = ({
   policy,
@@ -23,7 +22,7 @@ const PolicyCard = ({
     (category) => category.id === policy.categoryId
   )
 
-  const amount = MaskService.toMask('money', policy.amount, moneyOptions)
+  const amount = formatAmount(policy.amount)
 
   return (
     <TouchableWithoutFeedback

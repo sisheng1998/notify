@@ -5,14 +5,7 @@ import { TextInputMask } from 'react-native-masked-text'
 import { THEME } from '../../constants/theme'
 import Label from './Label'
 import Spacer from './Spacer'
-
-export const moneyOptions = {
-  precision: 2,
-  separator: '.',
-  delimiter: ',',
-  unit: 'RM ',
-  suffixUnit: '',
-}
+import { moneyOptions } from '../../utils/formatAmount'
 
 const AmountField = ({
   label,
