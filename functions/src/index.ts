@@ -6,34 +6,51 @@ import * as admin from 'firebase-admin'
 import {
   getNextPaymentDate,
   isOneOrTwoWeeksBefore,
-} from '../../app/utils/dueDate'
+  sendNotification,
+  formatAmount,
+} from './utils'
 
 admin.initializeApp()
 
-export const helloWorld = onRequest(async (request, response) => {
-  const collectionRef = admin
+export const sendNotifications = onRequest(async (request, response) => {
+  let results = ''
+
+  const policiesRef = admin
     .firestore()
     .collection('policies')
     .where('getNotified', '==', true)
     .where('isTrashed', '==', false)
 
-  const snapshot = await collectionRef.get()
+  const policies = await policiesRef.get()
 
-  snapshot.forEach((doc) => {
+  for (const doc of policies.docs) {
     const { inForceDate, paymentFrequency, amount, name, policyNo, userId } =
       doc.data()
 
     const paymentDueDate = getNextPaymentDate(inForceDate, paymentFrequency)
 
     if (isOneOrTwoWeeksBefore(paymentDueDate)) {
-      console.log(paymentDueDate, amount, name, policyNo, userId)
-    }
-  })
+      const result = await sendNotification(
+        userId,
+        'Policy Payment Due Soon',
+        `Policy No.: ${policyNo}\nClient: ${name}\nAmount: ${formatAmount(
+          amount
+        )}\nDue Date: ${paymentDueDate}`
+      )
 
-  response.send('Hello from Firebase!')
+      results += `${result}\n\n`
+    }
+  }
+
+  response.send(
+    results !== ''
+      ? `<p style="white-space: pre-wrap;">${results}</p>`
+      : 'No notifications sent.'
+  )
 })
 
-exports.scheduler = onSchedule('* * * * *', async () => {
+// Everyday 9 am
+exports.scheduler = onSchedule('0 9 * * *', async () => {
   console.log('Hello from scheduler')
   logger.log('Hello from scheduler')
 })
