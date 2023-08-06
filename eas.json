@@ -6,6 +6,17 @@
       "ios": {
         "simulator": true
       }
-    }
+    },
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "image": "ubuntu-18.04-jdk-11-ndk-r19c"
+      }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {}
   }
 }
