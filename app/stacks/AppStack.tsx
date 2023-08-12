@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useTheme } from '@react-navigation/native'
@@ -40,14 +41,14 @@ const AppStack = () => {
           tabBarStyle: {
             position: 'absolute',
             bottom: 32,
-            marginHorizontal: 24,
+            marginHorizontal: 16,
             height: 64,
             paddingTop: 8,
             paddingHorizontal: 8,
             paddingBottom: 10,
             borderRadius: 8,
             backgroundColor: 'white',
-            shadowColor: 'black',
+            shadowColor: Platform.OS === 'ios' ? 'black' : 'rgba(0, 0, 0, 0.2)',
             shadowOpacity: 0.05,
             shadowOffset: {
               width: 8,

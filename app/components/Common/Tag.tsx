@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Platform } from 'react-native'
 
 import { getColor } from '../../hooks/useColors'
 
@@ -15,7 +15,14 @@ const Tag = ({ text, colorIndex }: { text: string; colorIndex: number }) => {
     >
       <Text
         className='font-js-mid capitalize leading-none'
-        style={{ color: color.text }}
+        style={{
+          color: color.text,
+          ...Platform.select({
+            android: {
+              marginBottom: 2,
+            },
+          }),
+        }}
       >
         {text}
       </Text>

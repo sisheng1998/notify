@@ -217,7 +217,7 @@ const PolicyContent = ({
   }
 
   return (
-    <View className='flex-1 px-6'>
+    <View className='flex-1 px-4'>
       <Text className='mb-2 font-js-mid text-lg text-neutral-900'>
         {content.title}
       </Text>

@@ -28,7 +28,7 @@ const ScrollableContainer = ({
   }, [isFocused, resetScroll])
 
   return (
-    <ScrollView ref={scrollViewRef} className='-mr-6 flex-1 pr-6'>
+    <ScrollView ref={scrollViewRef} className='-mr-4 flex-1 pr-4'>
       {children}
     </ScrollView>
   )

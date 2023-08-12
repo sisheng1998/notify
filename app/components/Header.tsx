@@ -4,7 +4,9 @@ import {
   SafeAreaView,
   View,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native'
+import Constants from 'expo-constants'
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import auth from '@react-native-firebase/auth'
 
@@ -44,8 +46,13 @@ const Header = ({ route, navigation }: BottomTabHeaderProps) => {
   }
 
   return (
-    <SafeAreaView className='bg-primary'>
-      <View className='flex-row items-center justify-between px-6 py-3'>
+    <SafeAreaView
+      className='bg-primary'
+      style={{
+        paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight,
+      }}
+    >
+      <View className='flex-row items-center justify-between px-4 py-3'>
         <Logo onPress={() => navigation.navigate('Home')} />
 
         {action}
@@ -66,7 +73,18 @@ const ActionContainer = ({
   <TouchableWithoutFeedback onPress={onPress}>
     <View className='flex-row items-center space-x-0.5'>
       {icon}
-      <Text className='font-js-mid text-white'>{text}</Text>
+      <Text
+        className='font-js-mid text-white'
+        style={{
+          ...Platform.select({
+            android: {
+              marginBottom: 3,
+            },
+          }),
+        }}
+      >
+        {text}
+      </Text>
     </View>
   </TouchableWithoutFeedback>
 )

@@ -12,7 +12,7 @@ const Modal = ({
   children: React.ReactNode
 }) => (
   <RNModal
-    className='m-6'
+    className='m-4'
     isVisible={open}
     animationIn='fadeIn'
     animationInTiming={250}
@@ -28,7 +28,7 @@ const Modal = ({
     }
   >
     <SafeAreaView>
-      <View className='rounded-lg bg-white p-6'>{children}</View>
+      <View className='rounded-lg bg-white p-5'>{children}</View>
     </SafeAreaView>
   </RNModal>
 )

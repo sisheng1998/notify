@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { TouchableWithoutFeedback, View, Text } from 'react-native'
+import { TouchableWithoutFeedback, View, Text, Platform } from 'react-native'
 
 import { LoadingIconContainer } from './Loading'
 import LoadingIcon from '../../icons/Loading'
@@ -38,7 +38,16 @@ const Button = ({
           icon
         )}
 
-        <Text className='font-js-mid text-base text-white'>
+        <Text
+          className='font-js-mid text-base text-white'
+          style={{
+            ...Platform.select({
+              android: {
+                marginBottom: 3,
+              },
+            }),
+          }}
+        >
           {loading ? 'Loading...' : text}
         </Text>
       </View>

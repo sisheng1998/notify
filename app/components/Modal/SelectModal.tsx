@@ -58,7 +58,7 @@ const SelectModal = ({
         </View>
       )}
 
-      <ScrollView className='-mb-2 -mr-6 mt-1 max-h-80 pr-6'>
+      <ScrollView className='-mb-2 -mr-4 mt-1 max-h-80 pr-4'>
         {results.length === 0 ? (
           <InfoMessage text={`${title} not found.`} />
         ) : (

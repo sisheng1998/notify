@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Switch } from 'react-native'
+import { View, Text, Switch, Platform } from 'react-native'
 
 import { THEME } from '../../constants/theme'
 import NotificationIcon from '../../icons/Notification'
@@ -28,8 +28,10 @@ const ToggleField = ({
         value={value}
         onValueChange={toggleSwitch}
         style={{ transform: [{ scaleX: 0.75 }, { scaleY: 0.75 }] }}
+        thumbColor={Platform.OS === 'ios' ? 'white' : THEME.colors.primary}
         trackColor={{
-          true: THEME.colors.primary,
+          true: Platform.OS === 'ios' ? THEME.colors.primary : '#fca5a5',
+          ...(Platform.OS === 'ios' ? {} : { false: '#e5e5e5' }),
         }}
         disabled={readOnly}
       />

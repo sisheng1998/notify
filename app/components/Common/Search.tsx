@@ -1,6 +1,10 @@
 import React, { useRef } from 'react'
-import { TextInput, View } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import {
+  Platform,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 
 import { THEME } from '../../constants/theme'
 import SearchIcon from '../../icons/Search'
@@ -38,6 +42,14 @@ const Search = ({
         autoComplete='off'
         autoCorrect={false}
         spellCheck={false}
+        style={{
+          ...Platform.select({
+            android: {
+              paddingTop: 18,
+              paddingBottom: 14,
+            },
+          }),
+        }}
       />
 
       <IconContainer

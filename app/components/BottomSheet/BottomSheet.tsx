@@ -1,5 +1,12 @@
 import React, { useCallback, forwardRef, useImperativeHandle } from 'react'
-import { View, Dimensions, StyleSheet } from 'react-native'
+import {
+  View,
+  Dimensions,
+  StyleSheet,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native'
+import Constants from 'expo-constants'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
@@ -12,7 +19,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window')
+const { height: WINDOW_SCREEN_HEIGHT } = Dimensions.get('window')
+const SCREEN_HEIGHT =
+  WINDOW_SCREEN_HEIGHT + (Platform.OS === 'ios' ? 0 : Constants.statusBarHeight)
 
 type BottomSheetProps = {
   setBottomSheetContent: React.Dispatch<React.SetStateAction<React.ReactNode>>
@@ -69,13 +78,16 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
         }
       })
 
-    const bottomSheetStyles = useAnimatedStyle(
-      () => ({
+    const bottomSheetStyles = useAnimatedStyle(() => {
+      const styles = {
         height: Math.abs(translateY.value),
         transform: [{ translateY: translateY.value }],
-      }),
-      []
-    )
+      }
+
+      console.log() // Used to fix height not updating sometimes in Android
+
+      return styles
+    }, [])
 
     const backdropStyles = useAnimatedStyle(
       () => ({
@@ -102,7 +114,7 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
         />
 
         <Animated.View
-          className='absolute left-0 w-full rounded-3xl bg-white'
+          className='absolute left-0 w-full rounded-3xl rounded-b-none bg-white'
           style={[
             {
               top: SCREEN_HEIGHT,
@@ -111,19 +123,23 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(
           ]}
         >
           <GestureDetector gesture={gesture}>
-            <View className='px-6 pb-2 pt-4'>
+            <View className='px-4 pb-2 pt-4'>
               <View className='h-1 w-20 self-center rounded-full bg-neutral-200' />
             </View>
           </GestureDetector>
 
-          <View className='flex-1'>
+          <KeyboardAvoidingView
+            className='flex-1'
+            behavior='padding'
+            keyboardVerticalOffset={96}
+          >
             {children}
             <View
               style={{
-                height: bottom,
+                height: bottom > 32 ? bottom : 32,
               }}
             />
-          </View>
+          </KeyboardAvoidingView>
         </Animated.View>
       </>
     )
