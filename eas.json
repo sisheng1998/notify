@@ -14,11 +14,11 @@
         "image": "ubuntu-18.04-jdk-11-ndk-r19c"
       }
     },
-    "preview": {
+    "production": {
       "android": {
+        "image": "ubuntu-18.04-jdk-11-ndk-r19c",
         "buildType": "apk"
       }
-    },
-    "production": {}
+    }
   }
 }
