@@ -9,9 +9,11 @@ export interface Token extends AddToken {
 
 export interface AddToken {
   value: string
+  platform: string
 }
 
 export interface UpdateToken {
   value?: string
+  platform?: string
   updatedAt?: string
 }

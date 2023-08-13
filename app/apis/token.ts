@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import firestore from '@react-native-firebase/firestore'
 
 import { Token, TokenWithoutId, UpdateToken } from '../types/token'
@@ -25,6 +26,7 @@ export const storeToken = async (userId: string, value: string) => {
 
   const token: TokenWithoutId = {
     value,
+    platform: Platform.OS,
     userId,
     createdAt: now,
     updatedAt: now,
@@ -38,6 +40,7 @@ export const updateToken = async (id: string, value: string) => {
 
   const token: UpdateToken = {
     value,
+    platform: Platform.OS,
     updatedAt: now,
   }
 
