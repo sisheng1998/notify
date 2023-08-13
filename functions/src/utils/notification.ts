@@ -1,8 +1,4 @@
 import * as admin from 'firebase-admin'
-import {
-  getNextPaymentDate,
-  isOneOrTwoWeeksBefore,
-} from '../../app/utils/dueDate'
 
 export const sendNotification = async (
   userId: string,
@@ -46,20 +42,3 @@ export const sendNotification = async (
     return `${error}`
   }
 }
-
-export const formatAmount = (amount: string) => {
-  const parsedAmount = parseFloat(amount)
-
-  if (isNaN(parsedAmount)) return amount
-
-  const formattedAmount = parsedAmount.toLocaleString('en-MY', {
-    style: 'currency',
-    currency: 'MYR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })
-
-  return formattedAmount
-}
-
-export { getNextPaymentDate, isOneOrTwoWeeksBefore }
