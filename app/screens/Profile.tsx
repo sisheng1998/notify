@@ -112,7 +112,9 @@ const PersonalInfo = ({
 
 const MemberSince = ({ createdAt }: { createdAt?: string }) => {
   const today = moment()
-  const creationDate = createdAt ? moment(createdAt) : today
+  const creationDate = createdAt
+    ? moment(createdAt).startOf('day')
+    : today.startOf('day')
   const noOfDays = today.diff(creationDate, 'days')
 
   return (

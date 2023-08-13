@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Toast, { ToastConfig, BaseToastProps } from 'react-native-toast-message'
+import Constants from 'expo-constants'
 
 import CheckCircleIcon from '../../icons/CheckCircle'
 import RemoveCircleIcon from '../../icons/RemoveCircle'
@@ -16,7 +17,13 @@ const ToastProvider = () => {
     error: ({ text1 }: BaseToastProps) => <ToastMessage title={text1} />,
   }
 
-  return <Toast config={config} topOffset={top} visibilityTime={3000} />
+  return (
+    <Toast
+      config={config}
+      topOffset={top === 0 ? Constants.statusBarHeight : top}
+      visibilityTime={3000}
+    />
+  )
 }
 
 const ToastMessage = ({

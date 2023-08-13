@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Platform } from 'react-native'
 
 import Button, { IconButton } from '../Common/Button'
 import {
@@ -46,7 +46,7 @@ const PolicyContent = ({
     PaymentFrequency | ''
   >(policy ? policy.paymentFrequency : '')
   const [getNotified, setGetNotified] = useState<boolean>(
-    policy ? policy.getNotified : true
+    policy ? policy.getNotified : Platform.OS === 'android'
   )
 
   const [open, setOpen] = useState<boolean>(false)
@@ -226,8 +226,14 @@ const PolicyContent = ({
         label='Notification'
         value={getNotified}
         setValue={setGetNotified}
-        readOnly={content.readOnly}
+        readOnly={content.readOnly || Platform.OS !== 'android'}
       />
+
+      {Platform.OS !== 'android' && (
+        <Text className='mt-1.5 text-xs italic text-neutral-400'>
+          * Notifications are currently unavailable.
+        </Text>
+      )}
 
       <View className='h-3' />
 
