@@ -14,11 +14,13 @@ export const sendNotification = async (
     .firestore()
     .collection('tokens')
     .where('userId', '==', userId)
+    .where('platform', '==', 'android')
     .limit(1)
 
   const tokens = await tokensRef.get()
 
-  if (tokens.empty) return `User (userId: ${userId}) not found.`
+  if (tokens.empty)
+    return `User (userId: ${userId}) not found / platform not supported.`
 
   const token = tokens.docs[0].data()
   const notification = { title, body }

@@ -1,5 +1,4 @@
 import { logger } from 'firebase-functions'
-import { onRequest } from 'firebase-functions/v2/https'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import * as admin from 'firebase-admin'
 
@@ -12,9 +11,8 @@ import {
 
 admin.initializeApp()
 
-export const sendNotifications = onRequest(async (request, response) => {
-  let results = ''
-
+// Everyday 9 am
+exports.scheduler = onSchedule('0 9 * * *', async () => {
   const policiesRef = admin
     .firestore()
     .collection('policies')
@@ -32,25 +30,13 @@ export const sendNotifications = onRequest(async (request, response) => {
     if (isOneOrTwoWeeksBefore(paymentDueDate)) {
       const result = await sendNotification(
         userId,
-        'Policy Payment Due Soon',
-        `Policy No.: ${policyNo}\nClient: ${name}\nAmount: ${formatAmount(
+        'Premium Payment Due Soon',
+        `Policy #${policyNo} (${name}) ${formatAmount(
           amount
-        )}\nDue Date: ${paymentDueDate}`
+        )} due on ${paymentDueDate}.`
       )
 
-      results += `${result}\n\n`
+      logger.log(result)
     }
   }
-
-  response.send(
-    results !== ''
-      ? `<p style="white-space: pre-wrap;">${results}</p>`
-      : 'No notifications sent.'
-  )
-})
-
-// Everyday 9 am
-exports.scheduler = onSchedule('0 9 * * *', async () => {
-  console.log('Hello from scheduler')
-  logger.log('Hello from scheduler')
 })
