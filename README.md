@@ -1,6 +1,6 @@
 ## Notify
 
-A mobile application that remind my mother when her clients' premium payment due soon.
+A mobile application that reminds my mother when her clients' premium payments are due soon.
 
 ### Modules & Functionalities
 
@@ -18,3 +18,6 @@ A mobile application that remind my mother when her clients' premium payment due
 - Firebase
 - TypeScript
 - TailwindCSS
+
+### Used By
+This mobile application has been used by my mum since 2023 :D
