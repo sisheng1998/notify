@@ -49,12 +49,3 @@ const getFrequencyMultiplier = (paymentFrequency: PaymentFrequency) => {
       return 1
   }
 }
-
-export const isOneOrTwoWeeksBefore = (date: string) => {
-  const givenDate = moment(date, DATE_FORMAT).startOf('day')
-  const today = moment().startOf('day')
-
-  const difference = givenDate.diff(today, 'weeks')
-
-  return difference === 1 || difference === 2
-}

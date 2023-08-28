@@ -62,7 +62,7 @@ export const isOneOrTwoWeeksBefore = (date: string) => {
   const givenDate = moment(date, DATE_FORMAT).startOf('day')
   const today = moment().startOf('day')
 
-  const difference = givenDate.diff(today, 'weeks')
+  const difference = givenDate.diff(today, 'weeks', true)
 
   return difference === 1 || difference === 2
 }
