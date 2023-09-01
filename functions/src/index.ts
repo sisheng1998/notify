@@ -1,6 +1,6 @@
-const functions = require('firebase-functions')
-import { logger } from 'firebase-functions'
 import admin from 'firebase-admin'
+import { logger } from 'firebase-functions'
+const functions = require('firebase-functions')
 
 import { getNextPaymentDate, isOneOrTwoWeeksBefore } from './utils/dueDate'
 import { formatAmount } from './utils/formatAmount'
@@ -14,30 +14,59 @@ exports.sendNotifications = functions
   .pubsub.schedule('0 9 * * *')
   .timeZone('Asia/Kuala_Lumpur')
   .onRun(async () => {
-    const policiesRef = admin
-      .firestore()
+    const db = admin.firestore()
+
+    return db
       .collection('policies')
       .where('getNotified', '==', true)
       .where('isTrashed', '==', false)
+      .get()
+      .then((results) => {
+        if (results.size > 0) {
+          let promises: Promise<void>[] = []
 
-    const policies = await policiesRef.get()
+          results.forEach((doc) => {
+            const {
+              inForceDate,
+              paymentFrequency,
+              amount,
+              name,
+              policyNo,
+              userId,
+            } = doc.data()
 
-    for (const doc of policies.docs) {
-      const { inForceDate, paymentFrequency, amount, name, policyNo, userId } =
-        doc.data()
+            const paymentDueDate = getNextPaymentDate(
+              inForceDate,
+              paymentFrequency
+            )
 
-      const paymentDueDate = getNextPaymentDate(inForceDate, paymentFrequency)
+            if (isOneOrTwoWeeksBefore(paymentDueDate)) {
+              promises.push(
+                sendNotification(
+                  userId,
+                  'Premium Payment Due Soon',
+                  `Policy #${policyNo} (${name}) ${formatAmount(
+                    amount
+                  )} due on ${paymentDueDate}.`
+                )
+              )
+            }
+          })
 
-      if (isOneOrTwoWeeksBefore(paymentDueDate)) {
-        const result = await sendNotification(
-          userId,
-          'Premium Payment Due Soon',
-          `Policy #${policyNo} (${name}) ${formatAmount(
-            amount
-          )} due on ${paymentDueDate}.`
-        )
-
-        logger.log(result)
-      }
-    }
+          return promises.length !== 0
+            ? Promise.all(promises)
+                .then(() => {
+                  logger.log('All notifications sent!')
+                })
+                .catch((error) => {
+                  logger.log(`${error}`)
+                })
+            : logger.log('No notification need to be sent.')
+        } else {
+          return logger.log(`No policy need to be notified.`)
+        }
+      })
+      .catch((error) => {
+        logger.log(`${error}`)
+      })
   })
