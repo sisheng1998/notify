@@ -19,19 +19,23 @@ export const sendNotification = async (
     return `User (userId: ${userId}) not found / platform not supported.`
 
   const token = tokens.docs[0].data()
-  const notification = { title, body }
-  const headers = {
-    'apns-push-type': 'background',
-    'apns-priority': '5',
-  }
 
   const message: admin.messaging.TokenMessage = {
-    notification,
+    notification: { title, body },
     data,
     token: token.value,
+    android: {
+      notification: {
+        channelId: 'default',
+        color: '#ED1C24',
+      },
+    },
     apns: {
       payload: { aps: { contentAvailable: true } },
-      headers,
+      headers: {
+        'apns-push-type': 'background',
+        'apns-priority': '5',
+      },
     },
   }
 

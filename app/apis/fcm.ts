@@ -1,7 +1,12 @@
 import messaging, {
   FirebaseMessagingTypes,
 } from '@react-native-firebase/messaging'
-import notifee, { Event, EventType } from '@notifee/react-native'
+import notifee, {
+  Event,
+  EventType,
+  AndroidImportance,
+  AndroidBadgeIconType,
+} from '@notifee/react-native'
 
 import { getUserId } from './user'
 import { deleteToken, getToken, storeToken, updateToken } from './token'
@@ -55,6 +60,12 @@ const onMessageReceived = async (
     await notifee.displayNotification({
       title,
       body,
+      android: {
+        channelId: 'default',
+        importance: AndroidImportance.DEFAULT,
+        badgeIconType: AndroidBadgeIconType.SMALL,
+        color: '#ED1C24',
+      },
     })
   }
 }
