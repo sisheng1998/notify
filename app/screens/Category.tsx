@@ -61,6 +61,8 @@ const Category = () => {
     >
       <Title text='Category' number={results.length} />
 
+      <AddNewArea text='New Category' onPress={handleAddNewCategory} />
+
       <ScrollableContainer
         resetScroll={resetScroll}
         setResetScroll={setResetScroll}
@@ -82,8 +84,6 @@ const Category = () => {
             />
           ))
         )}
-
-        <AddNewArea text='New Category' onPress={handleAddNewCategory} />
 
         <View className='h-12' />
       </ScrollableContainer>

@@ -58,7 +58,7 @@ const SelectModal = ({
         </View>
       )}
 
-      <ScrollView className='-mb-2 -mr-4 mt-1 max-h-80 pr-4'>
+      <ScrollView className='-mr-4 mt-1 max-h-80 pr-4'>
         {results.length === 0 ? (
           <InfoMessage text={`${title} not found.`} />
         ) : (
@@ -82,7 +82,7 @@ const SelectModal = ({
         )}
       </ScrollView>
 
-      <View className='mt-6'>
+      <View className='mt-4'>
         <Button
           text='Select'
           onPress={handleCloseModal}

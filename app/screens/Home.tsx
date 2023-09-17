@@ -76,6 +76,8 @@ const Home = () => {
     >
       <Title text='Policy' number={results.length} />
 
+      <AddNewArea text='New Policy' onPress={handleAddNewPolicy} />
+
       <ScrollableContainer
         resetScroll={resetScroll}
         setResetScroll={setResetScroll}
@@ -95,8 +97,6 @@ const Home = () => {
             />
           ))
         )}
-
-        <AddNewArea text='New Policy' onPress={handleAddNewPolicy} />
 
         <View className='h-12' />
       </ScrollableContainer>

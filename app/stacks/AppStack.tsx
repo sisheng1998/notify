@@ -40,7 +40,7 @@ const AppStack = () => {
           tabBarInactiveTintColor: colors.border,
           tabBarStyle: {
             position: 'absolute',
-            bottom: 32,
+            bottom: Platform.OS === 'ios' ? 32 : 16,
             marginHorizontal: 16,
             height: 64,
             paddingTop: 8,

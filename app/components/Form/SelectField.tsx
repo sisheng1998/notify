@@ -45,9 +45,7 @@ const SelectField = ({
       <Spacer />
 
       {options.length === 0 ? (
-        <View className='-mb-2'>
-          <InfoMessage text={`${label} not found. Kindly add one first.`} />
-        </View>
+        <InfoMessage text={`${label} not found. Kindly add one first.`} />
       ) : readOnly ? (
         <TextInputField
           placeholder=''
