@@ -1,11 +1,5 @@
 import React, { useState } from 'react'
-import {
-  Text,
-  SafeAreaView,
-  View,
-  TouchableWithoutFeedback,
-  Platform,
-} from 'react-native'
+import { Text, View, TouchableWithoutFeedback, Platform } from 'react-native'
 import Constants from 'expo-constants'
 import { BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import auth from '@react-native-firebase/auth'
@@ -46,10 +40,10 @@ const Header = ({ route, navigation }: BottomTabHeaderProps) => {
   }
 
   return (
-    <SafeAreaView
+    <View
       className='bg-primary'
       style={{
-        paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight,
+        paddingTop: Constants.statusBarHeight,
       }}
     >
       <View className='flex-row items-center justify-between px-4 py-3'>
@@ -57,7 +51,7 @@ const Header = ({ route, navigation }: BottomTabHeaderProps) => {
 
         {action}
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
