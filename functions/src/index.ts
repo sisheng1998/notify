@@ -5,6 +5,7 @@ import admin from 'firebase-admin'
 import { getNextPaymentDate, isOneOrTwoWeeksBefore } from './utils/dueDate'
 import { formatAmount } from './utils/formatAmount'
 import { sendNotification } from './utils/notification'
+import { sendEmail } from './utils/email'
 
 admin.initializeApp()
 
@@ -29,15 +30,21 @@ exports.sendNotifications = functions
       const paymentDueDate = getNextPaymentDate(inForceDate, paymentFrequency)
 
       if (isOneOrTwoWeeksBefore(paymentDueDate)) {
-        const result = await sendNotification(
-          userId,
-          'Premium Payment Due Soon',
-          `Policy #${policyNo} (${name}) ${formatAmount(
-            amount
-          )} due on ${paymentDueDate}.`
-        )
+        const title = 'Premium Payment Due Soon'
+        const body = `Policy #${policyNo} (${name}) ${formatAmount(
+          amount
+        )} due on ${paymentDueDate}.`
 
-        logger.log(result)
+        const notificationResult = await sendNotification(userId, title, body)
+
+        logger.log(notificationResult)
+
+        const emailResult = await sendEmail(userId, {
+          subject: title,
+          text: body,
+        })
+
+        logger.log(emailResult)
       }
     }
   })
